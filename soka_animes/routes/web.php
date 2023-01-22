@@ -15,8 +15,18 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+})->name('welcome');
+
+Route::middleware('auth')->group(function (){
+    Route::resource('genders', \App\Http\Controllers\GenderController::class);
+    Route::resource('works', \App\Http\Controllers\WorkController::class);
+    Route::resource('characters', \App\Http\Controllers\CharacterController::class);
+
+    Route::post('/post/store', [\App\Http\Controllers\PostController::class, 'store'])->name('post.store');
 });
 
-Route::resource('genders', \App\Http\Controllers\GenderController::class);
-Route::resource('works', \App\Http\Controllers\WorkController::class);
-Route::resource('characters', \App\Http\Controllers\CharacterController::class);
+Auth::routes();
+Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+

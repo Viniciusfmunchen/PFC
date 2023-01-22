@@ -26,6 +26,33 @@
                 @enderror
             </div>
             <div class="form-group">
+                <label>Animes:</label><br>
+                @foreach($works as $work)
+                    @if($work->type == 0)
+                        <input type="checkbox" class="btn-check" name="work[]" id="gender{{$work->id}}" autocomplete="off" value="{{$work->id}}">
+                        <label class="btn btn-outline-primary" for="gender{{$work->id}}">{{$work->name}}</label>
+                    @endif
+                @endforeach
+            </div>
+            <div class="form-group">
+                <label>Mangas:</label><br>
+                @foreach($works as $work)
+                    @if($work->type == 1)
+                        <input type="checkbox" class="btn-check" name="work[]" id="gender{{$work->id}}" autocomplete="off" value="{{$work->id}}">
+                        <label class="btn btn-outline-primary" for="gender{{$work->id}}">{{$work->name}}</label>
+                    @endif
+                @endforeach
+            </div>
+            <div class="form-group">
+                <label>Filmes:</label><br>
+                @foreach($works as $work)
+                    @if($work->type == 2)
+                        <input type="checkbox" class="btn-check" name="work[]" id="gender{{$work->id}}" autocomplete="off" value="{{$work->id}}">
+                        <label class="btn btn-outline-primary" for="gender{{$work->id}}">{{$work->name}}</label>
+                    @endif
+                @endforeach
+            </div>
+            <div class="form-group">
                 <button class="form-control btn btn-primary mt-3" type="submit">Adicionar</button>
             </div>
         </form>

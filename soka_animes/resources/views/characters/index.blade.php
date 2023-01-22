@@ -2,6 +2,7 @@
     <div class="container">
         <div>
             <h1>Listagem de Personagens</h1>
+            <a class="btn btn-primary" href="{{ route('welcome') }}">Welcome</a>
             <a class="btn btn-primary" href="{{route('characters.create')}}">Adicionar Personagem</a>
         </div>
         <div class="table-responsive">
@@ -25,7 +26,9 @@
                             <td>{{$character->image}}</td>
                             <td><a class="btn btn-primary" href="{{route('characters.edit', $character->id)}}">Editar</a></td>
                             <td>
-                                <form action="{{route('characters.destroy', $character->id)}}" method="post">
+                                <form action="{{route('characters.destroy', $character->id)}}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
                                     <button class="btn btn-danger" type="submit">&#x1F5D1</button>
                                 </form>
                             </td>

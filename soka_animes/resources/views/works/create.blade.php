@@ -90,7 +90,22 @@
                     @enderror
                 </div>
             </div>
-            <button class="btn btn-primary" type="submit">Adicionar</button>
+            <div class="form-group">
+                <label> Gêneros: </label><br>
+                @foreach ($genders as $gender)
+                    <input type="checkbox" class="btn-check" name="gender[]" id="gender{{$gender->id}}" autocomplete="off" value="{{$gender->id}}">
+                    <label class="btn btn-outline-primary" for="gender{{$gender->id}}">{{$gender->gender}}</label>
+                @endforeach
+            </div>
+            <div class="form-group">
+                <label>Personagens: </label><br>
+                @foreach($characters as $character)
+                    <input type="checkbox" class="btn-check" name="character[]" id="character{{$character->id}}" autocomplete="off" value="{{$character->id}}">
+                    <label class="btn btn-outline-primary" for="character{{$character->id}}">{{$character->name}}</label>
+                @endforeach
+
+            </div>
+            <button class="btn btn-primary mt-3" type="submit">Adicionar</button>
         </form>
     </div>
 </x-app>

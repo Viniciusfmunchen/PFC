@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Character;
+use App\Models\Gender;
 use App\Models\Work;
 use Illuminate\Http\Request;
 
@@ -13,7 +15,9 @@ class WorkController extends Controller
     }
 
     public function create(){
-        return view('works.create');
+        $genders = Gender::all();
+        $characters = Character::all();
+        return view('works.create', compact('genders', 'characters'));
     }
 
     public function store(Request $request){
@@ -26,14 +30,33 @@ class WorkController extends Controller
             'status' => 'required',
             'author' => 'required | min:3 | max:50',
             'type' => 'required',
+            'gender' =>'required'
         ]);
 
-        Work::create($request->post());
+        $work = Work::create($request->post());
+        $genders = $request->gender;
+        $characters = $request->character;
+
+        if (isset($genders))
+        {
+            foreach ($genders as $gender) {
+                $work->genders()->attach($gender);
+            }
+        }
+        if (isset($characters))
+        {
+            foreach ($characters as $character) {
+                $work->characters()->attach($character);
+            }
+        }
+
         return redirect()->route('works.index')->with('success', 'Obra adicionada com sucesso');
     }
 
     public function edit(Work $work){
-        return view('works.edit', compact('work'));
+        $genders = Gender::all();
+        $characters = Character::all();
+        return view('works.edit', compact('work', 'genders'));
     }
 
     public function update(Request $request, Work $work){
@@ -50,11 +73,27 @@ class WorkController extends Controller
 
         $work->fill($request->post())->save();
 
+        $work->genders()->detach();
+        $genders = $request->gender;
+
+        $work->characters()->detach();
+        $characters = $request->character;
+
+        foreach ($genders as $gender) {
+            $work->genders()->attach($gender);
+        }
+
+        foreach ($characters as $character) {
+            $work->characters()->attach($character);
+        }
+
         return redirect()->route('works.index')->with('sucesso', 'Obra editado com sucesso');
     }
 
     public function destroy(Work $work){
+        $work->genders()->detach();
+        $work->characters()->detach();
         $work->delete();
-        return redirect()->route('work.index')->with('sucesso', 'Obra excluido com sucesso');
+        return redirect()->route('works.index')->with('sucesso', 'Obra excluido com sucesso');
     }
 }

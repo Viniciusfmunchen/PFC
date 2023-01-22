@@ -1,5 +1,6 @@
 <x-app title="Genrenciar Generos">
     <div class="container">
+        <a class="btn btn-primary" href="{{ route('welcome') }}">Welcome</a>
         <a class="btn btn-primary" href="{{ route('genders.create')}}">Adicionar Genero</a>
         <table class="table-light">
             <thead>
@@ -20,7 +21,7 @@
                                 <form action="{{route('genders.destroy', $gender->id)}}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger">	&#x1F5D1;</button>
+                                    <button type="submit" class="btn btn-danger">&#x1F5D1;</button>
                                 </form>
                             </td>
                         </tr>

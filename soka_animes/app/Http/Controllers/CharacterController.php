@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Character;
+use App\Models\Work;
 use Illuminate\Http\Request;
 
 class CharacterController extends Controller
@@ -15,7 +16,8 @@ class CharacterController extends Controller
 
     public function create()
     {
-        return view('characters.create');
+        $works = Work::all();
+        return view('characters.create', compact('works'));
     }
 
     public function store(Request $request)
@@ -26,12 +28,21 @@ class CharacterController extends Controller
             'image' => 'required'
         ]);
 
-        Character::create($request->post());
+        $works = $request->work;
+        $character = Character::create($request->post());
+
+        if (isset($works)){
+            foreach ($works as $work) {
+                $character->works()->attach($work);
+            }
+        }
+
         return redirect()->route('characters.index')->with('success', 'Personagem adicionado com sucesso');
     }
 
     public function edit(Character $character){
-        return view('characters.edit', compact('character'));
+        $works = Work::all();
+        return view('characters.edit', compact('character', 'works'));
     }
 
     public function update(Request $request, Character $character){
@@ -42,11 +53,18 @@ class CharacterController extends Controller
         ]);
 
         $character->fill($request->post())->save();
+        $character->works()->detach();
+
+        $works = $request->work;
+        foreach ($works as $work) {
+            $character->works()->attach($work);
+        }
 
         return redirect()->route('characters.index')->with('sucesso', 'Personagem editado com sucesso');
     }
 
     public function destroy(Character $character){
+        $character->works()->detach();
         $character->delete();
         return redirect()->route('characters.index')->with('sucesso', 'Personagem excluido com sucesso');
     }
