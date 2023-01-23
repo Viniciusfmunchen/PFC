@@ -14,6 +14,12 @@ class CharacterController extends Controller
         return view('characters.index', compact('characters'));
     }
 
+    public function show(int $findCharacter){
+        $character = Character::with('works')->find($findCharacter);
+
+        return view('characters.show', compact('character'));
+    }
+
     public function create()
     {
         $works = Work::all();

@@ -21,7 +21,6 @@ Route::middleware('auth')->group(function (){
     Route::resource('genders', \App\Http\Controllers\GenderController::class);
     Route::resource('works', \App\Http\Controllers\WorkController::class);
     Route::resource('characters', \App\Http\Controllers\CharacterController::class);
-
     Route::post('/post/store', [\App\Http\Controllers\PostController::class, 'store'])->name('post.store');
 });
 
