@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,6 +24,7 @@ Route::middleware('auth')->group(function (){
     Route::resource('characters', \App\Http\Controllers\CharacterController::class);
     Route::post('/post/store', [\App\Http\Controllers\PostController::class, 'store'])->name('post.store');
     Route::post('/comments/store', [\App\Http\Controllers\CommentController::class, 'store'])->name('comment.store');
+    Route::get('/posts/show/{id}', [\App\Http\Controllers\PostController::class, 'show'])->name('posts.show');
 });
 
 Auth::routes();

@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Character;
 use App\Models\Post;
-use App\Models\Work;
+use App\Models\Comment;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -33,6 +31,14 @@ class PostController extends Controller
         }
 
         return redirect()->route('home')->with('success', 'Sua publicacao foi .....');
+    }
+
+    public function show(int $id){
+
+        $posts = Post::where('id', $id)->join('users', 'users.id', '=', 'posts.user_id')->get();
+        dd($posts);
+        $comments = Comment::where('post_id', $id)->join('users', 'users.id', '=', 'comments.user_id')->get();
+        return view('posts.show', compact('post', 'comments'));
     }
 
 }

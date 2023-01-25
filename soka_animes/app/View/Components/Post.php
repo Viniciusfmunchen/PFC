@@ -16,8 +16,9 @@ class Post extends Component
     public $post;
     public $works;
     public $characters;
+    public $comments;
 
-    public function __construct($username, $post, $works, $characters)
+    public function __construct($username, $post, $works, $characters, $comments)
     {
         $this->username = $username;
         $this->post = $post;

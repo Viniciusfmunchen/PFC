@@ -24,6 +24,7 @@ class HomeController extends Controller
         $works = Work::all();
         $characters = Character::all();
         $posts = Post::orderBy('id', 'DESC')->where('user_id', Auth::user()->id)->with('characters', 'works')->get();
+            
         return view('home', compact('works', 'characters', 'posts'));
     }
 }
