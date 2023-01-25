@@ -6,7 +6,7 @@
 
             <div class="mt-5">
                 @foreach($posts as $post)
-                    <x-post :username="$username = Auth::user()->name" :content="$post->content" :works="$post->works"
+                    <x-post :username="$username = Auth::user()->name" :post="$post" :works="$post->works"
                             :characters="$post->characters"></x-post>
                 @endforeach
             </div>

@@ -22,6 +22,7 @@ Route::middleware('auth')->group(function (){
     Route::resource('works', \App\Http\Controllers\WorkController::class);
     Route::resource('characters', \App\Http\Controllers\CharacterController::class);
     Route::post('/post/store', [\App\Http\Controllers\PostController::class, 'store'])->name('post.store');
+    Route::post('/comments/store', [\App\Http\Controllers\CommentController::class, 'store'])->name('comment.store');
 });
 
 Auth::routes();
