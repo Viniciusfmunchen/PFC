@@ -1,0 +1,12 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+.side{
+    height: 100vh;
+}
+.nav-link{
+    font-size: larger;
+}
+

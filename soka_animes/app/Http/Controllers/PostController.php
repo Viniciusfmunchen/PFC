@@ -34,11 +34,9 @@ class PostController extends Controller
     }
 
     public function show(int $id){
-
-        $posts = Post::where('id', $id)->join('users', 'users.id', '=', 'posts.user_id')->get();
-        dd($posts);
-        $comments = Comment::where('post_id', $id)->join('users', 'users.id', '=', 'comments.user_id')->get();
-        return view('posts.show', compact('post', 'comments'));
+        $post = Post::find($id);
+        $postComments = $post->comments()->with('user')->get();
+        return view('posts.show', compact('post', 'postComments'));
     }
 
 }

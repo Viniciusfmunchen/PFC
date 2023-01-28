@@ -15,64 +15,73 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    @vite('resources/css/app.css')
 </head>
-<body class="bg-light">
-<div id="app">
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
-        <div class="container">
-            <a class="navbar-brand" href="{{ url('/') }}">
-                {{ config('app.name', 'Laravel') }}
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+<body class="bg-dark">
+    <div class="container">
+        <div class="row">
+            <nav class="col-3 side navbar-expand-lg navbar-dark bg-dark p-4 bg-dark">
+                <a href="#" class="navbar-brand"><h2 class="text-uppercase fw-bold">🐵 Soka Animes</h2> </a>
+                <div class="navbar-toggler fixed-bottom bg-dark">
+                    <span class="fa-solid fa-home me-2"></span>
+                    <span class="fa-solid fa-user me-2"></span>
+                    <span class="fa-solid fa-search me-2"></span>
+                </div>
+                <div class="collapse navbar-collapse mt-3">
+                    <ul class="navbar-nav text-light d-block">
+                        <li class="nav-item rounded-pill my-3">
+                            <a href="{{route('welcome')}}" class="nav-link"><span
+                                    class="fa-solid fa-home me-2"></span> Pagina Inicial</a>
+                        </li>
+                        <li class="nav-item rounded-pill my-3">
+                            <a href="{{route('works.index')}}" class="nav-link"><span
+                                    class="fa-solid fa-search me-2"></span> Pesquisar</a>
+                        </li>
+                        <li class="nav-item rounded-pill my-3">
+                            <a href="{{route('home')}}" class="nav-link"><span class="fa-solid fa-user me-2"></span>
+                                Perfil</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <a class="text-decoration-none text-white btn btn-primary rounded-pill px-5 py-2 mt-5" href="#"><b>TATAKAE!</b></a>
+                </div>
+                <div class="dropdown text-light d-flex justify-content-center mt-5">
+                    <button class="btn btn-secondary rounded-pill dropdown-toggle" type="button" id="dropMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                        @guest @if(Route::has('login')||Route::has('register')) Entrar @endif @else {{Auth::user()->name}}@endguest
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropMenu">
+                        @guest()
+                            @if(Route::has('login'))
+                                <li>
+                                    <a href="{{route('login')}}" class="dropdown-item">Login</a>
+                                </li>
+                            @endif
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <!-- Left Side Of Navbar -->
-                <ul class="navbar-nav me-auto">
-
-                </ul>
-
-                <!-- Right Side Of Navbar -->
-                <ul class="navbar-nav ms-auto">
-                    <!-- Authentication Links -->
-                    @guest
-                        @if (Route::has('login'))
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li>
-                        @endif
-
-                        @if (Route::has('register'))
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('register') }}">{{ __('Cadastro') }}</a>
-                            </li>
-                        @endif
-                    @else
-                        <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                {{ Auth::user()->name }}
-                            </a>
-
-                            <div class="dropdown-menu dropdown-menu-end bg-dark" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item text-light" href="{{ route('logout') }}"
-                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
-                                </a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @if(Route::has('register'))
+                                    <li>
+                                        <a href="{{route('register')}}" class="dropdown-item">Cadastro</a>
+                                    </li>
+                                @endif
+                        @else
+                            <li>
+                                <a href="{{route('logout')}}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Sair</a>
+                                <form action="{{route('logout')}}" id="logout-form" method="POST" class="d-none">
                                     @csrf
                                 </form>
-                            </div>
-                        </li>
-                    @endguest
-                </ul>
+                            </li>
+                        @endguest
+                    </ul>
+                </div>
+            </nav>
+            <div class="col-6 bg-primary">
+                {{$slot}}
+            </div>
+            <div class="col-3 bg-warning side">
+
             </div>
         </div>
-    </nav>
-
-    <main class="py-4">
-        {{$slot}}
-    </main>
-</div>
+    </div>
+    <script src="https://kit.fontawesome.com/4159a3a088.js" crossorigin="anonymous"></script>
 </body>
 </html>

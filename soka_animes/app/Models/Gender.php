@@ -16,4 +16,8 @@ class Gender extends Model
     public function works(){
         return $this->belongsToMany(Work::class);
     }
+
+    public function posts(){
+        return $this->belongsToMany(Post::class);
+    }
 }
