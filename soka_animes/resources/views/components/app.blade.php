@@ -20,7 +20,7 @@
 <body class="bg-dark">
     <div class="container">
         <div class="row">
-            <nav class="col-3 side navbar-expand-lg navbar-dark bg-dark p-4 bg-dark">
+            <nav class="col-3 side navbar-expand-lg navbar-dark bg-dark p-4 bg-dark sticky-top">
                 <a href="#" class="navbar-brand"><h2 class="text-uppercase fw-bold">🐵 Soka Animes</h2> </a>
                 <div class="navbar-toggler fixed-bottom bg-dark">
                     <span class="fa-solid fa-home me-2"></span>
@@ -47,7 +47,7 @@
                     <a class="text-decoration-none text-white btn btn-primary rounded-pill px-5 py-2 mt-5" href="#"><b>TATAKAE!</b></a>
                 </div>
                 <div class="dropdown text-light d-flex justify-content-center mt-5">
-                    <button class="btn btn-secondary rounded-pill dropdown-toggle" type="button" id="dropMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="btn btn-dark rounded-pill dropdown-toggle" type="button" id="dropMenu" data-bs-toggle="dropdown" aria-expanded="false">
                         @guest @if(Route::has('login')||Route::has('register')) Entrar @endif @else {{Auth::user()->name}}@endguest
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropMenu">
@@ -74,10 +74,10 @@
                     </ul>
                 </div>
             </nav>
-            <div class="col-6 bg-primary">
+            <div class="col-6 bg-dark">
                 {{$slot}}
             </div>
-            <div class="col-3 bg-warning side">
+            <div class="col-3 bg-warning side sticky-top">
 
             </div>
         </div>
