@@ -1,5 +1,5 @@
 <x-app title="Adicionar Obras">
-    <div class="container">
+    <div class="container text-light">
         <form action="{{ route('works.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-group">

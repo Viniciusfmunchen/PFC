@@ -1,11 +1,11 @@
 <div class="bg-dark text-light">
     <form action="{{route('post.store')}}" method="POST">
         <div class="card-header mt-3">
-            <h5>{{Auth::user()->name}}</h5>   
+            <h5>{{Auth::user()->name}}</h5>
         </div>
         <div class="card-body">
             @csrf
-            <textarea class="form-control scroll" type="text" name="content" id="content" maxlength="500"></textarea> 
+            <textarea class="form-control scroll" type="text" name="content" id="content" maxlength="500"></textarea>
             <input class="d-none" value="{{Auth::user()->id}}" name="user_id" id="user_id">
             <div class="row d-flex">
                 <div class="col-6">
@@ -28,11 +28,13 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <input class="form-control" placeholder="Pesquise por obras..." type="search" name="searchWorks"
-                            id="searchWorks">
+                        <input class="form-control" placeholder="Pesquise por obras..." type="search" name="searchWorks" data-search-work>
                     </div>
-                    <div class="modal-body">
-                        <div id="worksContainer"></div>
+                    <div class="modal-body" data-works-container>
+                        <div class="d-none" data-works-template>
+                            <input type="checkbox" class="btn-check" name="" id="" autocomplete="off" value="">
+                            <label class="btn btn-outline-primary mx-1" for=""></label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -43,86 +45,98 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <input class="form-control" placeholder="Pesquise por personagens..." type="search"
-                            name="searchCharacters" id="searchCharacters">
+                            name="searchCharacters" data-search-characters>
                     </div>
-                    <div class="modal-body">
-                        <div id="charactersContainer"></div>
+                    <div class="modal-body" data-characters-container>
+
                     </div>
                 </div>
             </div>
         </div>
-        <div class="p-2" id="checkedContainer"></div>
+        <div class="p-2" id="checkedContainer">
+
+        </div>
 
     </form>
 </div>
-<script type="text/javascript">
-    var works = {!!json_encode($works->toArray(), JSON_HEX_TAG) !!};
-    works.name = 'work';
-    works.checked = '';
-    var characters = {!!json_encode($characters->toArray(), JSON_HEX_TAG) !!}
-    characters.name = 'character';
-    var checkedList = [];
+<script type="text/javascript" defer>
+    const works = {!! json_encode($works->toArray(), JSON_HEX_TAG) !!};
+    const characters = {!! json_encode($characters->toArray(), JSON_HEX_TAG) !!};
 
-    const worksContainer = document.getElementById('worksContainer');
-    const searchBarWorks = document.getElementById('searchWorks');
-    const charactersContainer = document.getElementById('charactersContainer');
-    const searchBarCharacters = document.getElementById('searchCharacters');
-    const checkedContainer = document.getElementById('checkedContainer');
+    const templateList = document.querySelector("[data-works-template]");
 
+    const containerWorks = document.querySelector("[data-works-container]")
+    const searchWork = document.querySelector("[data-search-work]");
+    let listedWorks = [];
 
-    const getVariableName = varObj => Object.keys(varObj)[0];
+    const containerCharacters = document.querySelector("[data-characters-container]");
+    const searchCharacter = document.querySelector("[data-search-characters]");
+    let listedCharacters = [];
 
-    function renderItems(list, container) {
-        let formatedList = '';
-        if (list.lenght <= 0) {
-            formatedList += `<div class="bg-danger">Nenhuma obra disponivel</div>`
-        } else {
-            list.forEach(listItem => {
-                getCheckeds(listItem)
-                formatedList +=
-                    `<input type="checkbox" class="btn-check" name="${list.name}[]" id="${listItem.name}" autocomplete="off" value="${listItem.id}" ${listItem.checked}>
-                <label class="btn btn-outline-primary mx-1" for="${listItem.name}">${listItem.name}</label>`
-            });
-        }
-        console.log(formatedList);
-        container.innerHTML = formatedList;
-    }
+    let selectedTags = [];
 
-    renderItems(works, worksContainer)
-    renderItems(characters, charactersContainer)
-
-    searchBarWorks.addEventListener('keyup', (e) => {
-        const searchString = e.target.value.toLowerCase();
-        const filteredWorks = works.filter(work => {
-            return work.name.toLowerCase().includes(searchString);
+    searchWork.addEventListener('input', e =>{
+        const value = e.target.value.toLowerCase();
+        listedWorks.forEach(work =>{
+           const isWorkVisible = work.name.toLowerCase().includes(value);
+           work.label.classList.toggle("d-none", !isWorkVisible);
+           work.input.classList.toggle("d-none", !isWorkVisible);
         });
-
-        renderItems(works, worksContainer);
-    })
-
-    searchBarCharacters.addEventListener('keyup', (e) => {
-        const searchString = e.target.value.toLowerCase();
-        const filteredCharacters = characters.filter(character => {
-            return character.name.toLowerCase().includes(searchString);
-        });
-
-        renderItems(characters, charactersContainer);
-    })
-
-    var checkboxes = document.querySelectorAll('input[type=checkbox]');
-    
-        checkboxes.forEach(checkbox => {
-            checkbox.addEventListener('click', (e)=>{
-                if(checkbox.checked == true){
-                    checkedList.push(checkbox.id)
-                    console.log(checkedList)
-                }else{
-                    let index = checkedList.indexOf(checkbox.id)
-                    if(index > -1){    
-                        checkedList.splice(index);
-                    }
-                }
-            });
     });
 
+    searchCharacter.addEventListener('input', e =>{
+       const value = e.target.value.toLowerCase();
+        listedCharacters.forEach(character =>{
+            const isCharacterVisible = character.name.toLowerCase().includes(value);
+            character.label.classList.toggle("d-none", !isCharacterVisible);
+            character.input.classList.toggle("d-none", !isCharacterVisible);
+        });
+    });
+
+    listedWorks = works.map(work =>{
+        const inputWork = templateList.children[0].cloneNode()
+        const labelWork = templateList.children[1].cloneNode()
+        inputWork.id = work.name;
+        inputWork.value = work.id;
+        inputWork.name = "work[]";
+        labelWork.textContent = work.name;
+        labelWork.htmlFor = work.name;
+        containerWorks.append(inputWork);
+        containerWorks.append(labelWork);
+        return {
+            name: work.name, label: labelWork, input: inputWork
+        }
+    });
+    listedCharacters = characters.map(character =>{
+        const inputCharacter = templateList.children[0].cloneNode()
+        const labelCharacter = templateList.children[1].cloneNode()
+        inputCharacter.id = character.name;
+        inputCharacter.value = character.id;
+        inputCharacter.name = "character[]";
+        labelCharacter.textContent = character.name;
+        labelCharacter.htmlFor = character.name;
+        containerCharacters.append(inputCharacter);
+        containerCharacters.append(labelCharacter);
+        return {
+            name: character.name, label: labelCharacter, input: inputCharacter
+        }
+    });
+
+    const checkboxes = document.querySelectorAll("input[type=checkbox]");
+    const checkedContainer = document.getElementById('checkedContainer');
+
+    checkboxes.forEach(checkbox =>{
+        checkbox.addEventListener('click', e =>{
+            if(checkbox.checked == true){
+                selectedTags.push(`<span class="badge rounded-pill bg-secondary">${checkbox.id}</span>`);
+                checkedContainer.innerHTML = selectedTags.join(' ');
+            }else{
+                let index = selectedTags.indexOf(`<span class="badge rounded-pill bg-secondary">${checkbox.id}</span>`);
+                if(index > -1){
+                    selectedTags.splice(index, 1);
+                    checkedContainer.innerHTML = selectedTags.join(' ');
+                }
+            }
+        });
+    });
 </script>

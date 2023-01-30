@@ -1,6 +1,5 @@
 <x-app title="Adicionar Personagem">
-    <div class="container">
-        <form action="{{ route('characters.store')}}" method="POST">
+    <form action="{{ route('characters.store')}}" method="POST">
             @csrf
             <div class="form-group">
                 <label for="name">Nome:</label>
