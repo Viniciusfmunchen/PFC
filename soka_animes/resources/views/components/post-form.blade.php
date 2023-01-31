@@ -1,11 +1,11 @@
-<div class="bg-dark text-light">
+<div class="text-light border-bottom border-secondary">
     <form action="{{route('post.store')}}" method="POST">
         <div class="card-header mt-3">
             <h5>{{Auth::user()->name}}</h5>
         </div>
         <div class="card-body">
             @csrf
-            <textarea class="form-control scroll" type="text" name="content" id="content" maxlength="500"></textarea>
+            <textarea class="form-control scroll input-dark" type="text" name="content" id="content" maxlength="500"></textarea>
             <input class="d-none" value="{{Auth::user()->id}}" name="user_id" id="user_id">
             <div class="row d-flex">
                 <div class="col-6">
@@ -26,14 +26,14 @@
         <div class="modal fade" id="modalWorks" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
+                <div class="modal-content bg-dark">
                     <div class="modal-header">
-                        <input class="form-control" placeholder="Pesquise por obras..." type="search" name="searchWorks" data-search-work>
+                        <input class="form-control input-dark" placeholder="Pesquise por obras..." type="search" name="searchWorks" data-search-work>
                     </div>
                     <div class="modal-body" data-works-container>
                         <div class="d-none" data-works-template>
                             <input type="checkbox" class="btn-check" name="" id="" autocomplete="off" value="">
-                            <label class="btn btn-outline-primary mx-1" for=""></label>
+                            <label class="btn btn-outline-primary text-light mx-1" for=""></label>
                         </div>
                     </div>
                 </div>
@@ -42,9 +42,9 @@
         <div class="modal fade" id="modalCharacters" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
+                <div class="modal-content bg-dark">
                     <div class="modal-header">
-                        <input class="form-control" placeholder="Pesquise por personagens..." type="search"
+                        <input class="form-control input-dark" placeholder="Pesquise por personagens..." type="search"
                             name="searchCharacters" data-search-characters>
                     </div>
                     <div class="modal-body" data-characters-container>

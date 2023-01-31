@@ -1,33 +1,34 @@
-<div class="mt-3">
-    <a href="{{route('posts.show', $post->id)}}" class="text-decoration-none text-dark">
-        <div class="card">
-            <div class="card-body">
-                <h6 class="fw-bold"> {{$username}} - {{$post->created_at}}</h6><br>
-                {{$post->content}}
-            </div>
-            <div class="card-footer">
-                <div>
-                    @foreach($works as $work)
-                        <span class="badge rounded-pill bg-warning mx-1">{{ $work->name }}</span>
-                    @endforeach
-                    @foreach($characters as $character)
-                        <a class="badge rounded-pill bg-info mx-1 text-decoration-none"
-                           href="{{route('characters.show', $character->id)}}"> {{ $character->name }} </a>
-                    @endforeach
+<div class="border-bottom border-secondary px-3 pt-3 text-light">
+        <div class="row d-flex justify-content-center align-items-center">
+            <div class="col-1">
+                <div class="image-post bg-secondary rounded-circle d-flex justify-content-center align-items-center">
+                    <i class="fa-solid fa-user"></i>
                 </div>
             </div>
+            <div class="col-11">
+                <span class="fw-bold mx-2"> {{$username}} </span>- {{$post->created_at}}<br>
+            </div>
         </div>
-    </a>
-
-    <button class="text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#formComment{{$post->id}}" aria-expanded="false" aria-controls="formComment{{$post->id}}">
-            Comentar
-    </button>
-    <form action="{{route('comment.store')}}" method="POST" class="collapse" id="formComment{{$post->id}}">
-        @csrf
-        <label for="content"></label>
-        <input class="form-control" type="text" name="content" id="content">
-        <input type="text" class="d-none" name="user_id" value="{{Auth::user()->id}}">
-        <input type="text" class="d-none" name="post_id" value="{{$post->id}}">
-        <button type="submit" class="btn btn-outline-success">Comentar</button>
-    </form>
+        <div class="mx-5 px-3 ">
+            <p>{{$post->content}}</p>
+        </div>
+        <div class="row d-flex justify-content-center mt-2 mx-5 p-2">
+            <div class="col-3">
+                <a href="#" class="fa-regular fa-comment text-decoration-none text-light"></a>
+                <a href="#" class="fa-regular fa-heart text-decoration-none text-light mx-2"></a>
+            </div>
+            <div class="col-9 text-end">
+                @foreach ($characters as $character)
+                    <a href="#">
+                        <span class="badge badge-pill bg-warning">{{$character->name}}</span>
+                    </a>
+                @endforeach
+                @foreach($works as $work)
+                    <a href="#">
+                        <span class="badge badge-pill bg-info mx-1">{{$work->name}}</span>
+                    </a>
+                @endforeach
+            </div>
+        </div>
+    
 </div>

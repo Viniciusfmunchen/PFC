@@ -10,16 +10,28 @@
     font-size: larger;
 }
 
-textarea#content{
+.input-dark{
     border: none;
     background-color: #1c2f2f;
     color: white;
+}
+
+textarea.input-dark{
     height: 120px;
     resize: none;
 }
 
 .scroll::-webkit-scrollbar{
     display: none;
+}
+
+.modal-header{
+    border-bottom: 1px solid #1c2f2f;
+}
+
+.image-post{
+    width: 45px;
+    height: 45px;
 }
 
 
