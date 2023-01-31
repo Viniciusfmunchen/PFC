@@ -20,7 +20,7 @@
 <body class="bg-dark">
     <div class="container">
         <div class="row">
-            <nav class="col-3 side navbar-expand-lg navbar-dark bg-dark p-4 bg-dark sticky-top">
+            <nav class="col-3 side navbar-expand-lg navbar-dark bg-dark p-4 bg-dark sticky-top border-end border-secondary">
                 <a href="#" class="navbar-brand"><h2 class="text-uppercase fw-bold">🐵 Soka Animes</h2> </a>
                 <div class="navbar-toggler fixed-bottom bg-dark">
                     <span class="fa-solid fa-home me-2"></span>
@@ -77,7 +77,7 @@
             <div class="col-6 bg-dark">
                 {{$slot}}
             </div>
-            <div class="col-3 bg-warning side sticky-top">
+            <div class="col-3 bg-dark side sticky-top border-start border-secondary">
 
             </div>
         </div>

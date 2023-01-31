@@ -53,6 +53,7 @@
                 </div>
             </div>
         </div>
+        <span><i class="fa-solid fa-tags me-1"></i>Tags:</span>
         <div class="p-2" id="checkedContainer">
 
         </div>
