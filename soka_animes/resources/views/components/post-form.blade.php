@@ -1,11 +1,20 @@
 <div class="text-light border-bottom border-secondary">
-    <form action="{{route('post.store')}}" method="POST">
+    <form action="{{route('posts.store')}}" method="POST">
         <div class="card-header mt-3">
-            <h5>{{Auth::user()->name}}</h5>
+            <div class="row mb-2">
+                <div class="col-1">
+                <div class="image-post bg-secondary rounded-circle d-flex justify-content-center align-items-center">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                </div>
+                <div class="col-10 d-flex align-items-center">
+                <h5 style="margin: 0">{{Auth::user()->name}}</h5>
+                </div>
+            </div>
         </div>
         <div class="card-body">
             @csrf
-            <textarea class="form-control scroll input-dark" type="text" name="content" id="content" maxlength="500"></textarea>
+            <textarea class="form-control scroll input-dark" type="text" name="content" id="content" maxlength="500" placeholder="Faca uma nova publicacao"></textarea>
             <input class="d-none" value="{{Auth::user()->id}}" name="user_id" id="user_id">
             <div class="row d-flex">
                 <div class="col-6">
@@ -27,7 +36,7 @@
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content bg-dark">
-                    <div class="modal-header">
+                    <div class="modal-header border-secondary">
                         <input class="form-control input-dark" placeholder="Pesquise por obras..." type="search" name="searchWorks" data-search-work>
                     </div>
                     <div class="modal-body" data-works-container>
@@ -43,7 +52,7 @@
             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content bg-dark">
-                    <div class="modal-header">
+                    <div class="modal-header border-secondary">
                         <input class="form-control input-dark" placeholder="Pesquise por personagens..." type="search"
                             name="searchCharacters" data-search-characters>
                     </div>
@@ -54,9 +63,7 @@
             </div>
         </div>
         <span><i class="fa-solid fa-tags me-1"></i>Tags:</span>
-        <div class="p-2" id="checkedContainer">
-
-        </div>
+        <div class="p-2" id="checkedContainer"></div>
 
     </form>
 </div>

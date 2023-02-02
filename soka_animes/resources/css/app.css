@@ -3,6 +3,7 @@
     padding: 0px;
     box-sizing: border-box;
 }
+
 .side{
     height: 100vh;
 }
@@ -17,21 +18,87 @@
 }
 .input-dark:focus{
     background-color: rgba(52, 58, 64, 0.1);
+    box-shadow: none;
     color: white;
 }
-
 textarea.input-dark{
     height: 120px;
     resize: none;
 }
+input.input-dark-search{
+    background-color: rgb(39 39 42);
+    border: none;
+}
+input.input-dark-search:focus{
+    background-color: rgb(39 39 42);
+    color: white;
+    outline: none;
+    box-shadow: none;
+}
+div.search-box{
+    background-color: rgb(39 39 42);
+}
+div.search-box:focus-within{
+    border: 2px solid rebeccapurple;
+}
 
-.modal-header{
-    border-bottom: 1px solid #1c2f2f;
+
+.btn-dark:focus{
+    box-shadow: none;
+}
+
+button.btn-comment{
+    box-shadow: none;
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+    color:  #6c757d;
+    transition: 0.5s;
+}
+button.btn-comment:hover{
+    color: mediumpurple;
+    background: rgb(147,112,219);
+    background: radial-gradient(circle, rgba(147,112,219,0.15730042016806722) 17%, rgba(2,0,36,0.022846638655462215) 91%);
+}
+button.btn-comment:focus{
+    outline: none;
+    box-shadow: none;
+}
+
+a.btn-like{
+    box-shadow: none;
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+    color:  #6c757d;
+    text-decoration: none;
+    transition: 0.5s;
+}
+a.btn-like:hover{
+    color: indianred;
+    background: rgb(205,95,95);
+    background: radial-gradient(circle, rgba(205,95,95,0.3533788515406162) 0%, rgba(223,63,63,0) 100%);
+}
+a.btn-like:focus{
+    outline: none;
+    box-shadow: none;
+}
+
+.dropdown-item{
+    color: white;
+}
+.dropdown-item:hover{
+    background-color: rgba(0, 0, 0, 0);
+    color: white;
 }
 
 .image-post{
     width: 45px;
     height: 45px;
 }
-
+.alert {
+    position: fixed;
+    left: 50%;
+    bottom: 20px;
+    transform: translate(-50%, -50%);
+    margin: 0 auto;
+}
 

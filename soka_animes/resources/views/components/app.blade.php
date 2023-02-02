@@ -18,6 +18,11 @@
     @vite('resources/css/app.css')
 </head>
 <body class="bg-dark">
+@if(session('success'))
+    <div class="alert alert-primary border border-primary">
+        {{session('success')}}
+    </div>
+@endif
     <div class="container">
         <div class="row">
             <nav class="col-3 side navbar-expand-lg navbar-dark bg-dark p-4 bg-dark sticky-top border-end border-secondary">
@@ -78,10 +83,26 @@
                 {{$slot}}
             </div>
             <div class="col-3 bg-dark side sticky-top border-start border-secondary">
-
+                <form action="">
+                    <div class="search-box input-group rounded-pill px-3 py-1 mt-2">
+                        <span class="input-group-append d-flex align-items-center">
+                            <button typeof="submit" class="btn btn-info p-2" type="button">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
+                        <input class="input-dark-search form-control" type="search" id="example-search-input" autocomplete="off">
+                    </div>
+                </form>
             </div>
         </div>
+
     </div>
     <script src="https://kit.fontawesome.com/4159a3a088.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function(){
+            $('.alert-primary').delay(3000).fadeOut();
+        });
+    </script>
 </body>
 </html>

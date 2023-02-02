@@ -17,6 +17,6 @@ class CommentController extends Controller
 
         Comment::create($request->post());
 
-        return redirect()->route('home');
+        return redirect()->back()->with('success', 'Sua resposta foi enviada.');
     }
 }

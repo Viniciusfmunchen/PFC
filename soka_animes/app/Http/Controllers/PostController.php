@@ -30,13 +30,23 @@ class PostController extends Controller
             }
         }
 
-        return redirect()->route('home')->with('success', 'Sua publicacao foi .....');
+        return redirect()->route('home')->with('success', 'Sua publicação foi enviada');
     }
 
     public function show(int $id){
         $post = Post::find($id);
         $postComments = $post->comments()->with('user')->get();
         return view('posts.show', compact('post', 'postComments'));
+    }
+
+    public function destroy(Post $post)
+    {
+        $post->works()->detach();
+        $post->characters()->detach();
+        $post->comments()->delete();
+        $post->delete();
+
+        return redirect()->back()->with('success', 'Publicação excluída.');
     }
 
 }
