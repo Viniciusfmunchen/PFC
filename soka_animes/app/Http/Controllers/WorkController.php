@@ -82,11 +82,11 @@ class WorkController extends Controller
         foreach ($genders as $gender) {
             $work->genders()->attach($gender);
         }
-
-        foreach ($characters as $character) {
-            $work->characters()->attach($character);
+        if(isset($characters)){
+            foreach ($characters as $character) {
+                $work->characters()->attach($character);
+            }
         }
-
         return redirect()->route('works.index')->with('sucesso', 'Obra editado com sucesso');
     }
 

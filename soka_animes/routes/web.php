@@ -24,6 +24,7 @@ Route::middleware('auth')->group(function (){
     Route::resource('posts', App\Http\Controllers\PostController::class);
 
     Route::post('/comments/store', [\App\Http\Controllers\CommentController::class, 'store'])->name('comment.store');
+    Route::get('/search', [\App\Http\Controllers\SearchController::class, 'search'])->name('search');
 
 });
 

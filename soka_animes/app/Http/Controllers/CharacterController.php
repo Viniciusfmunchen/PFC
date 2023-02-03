@@ -59,13 +59,14 @@ class CharacterController extends Controller
         ]);
 
         $character->fill($request->post())->save();
-        $character->works()->detach();
 
-        $works = $request->work;
-        foreach ($works as $work) {
-            $character->works()->attach($work);
+        if(!isset($works)){
+            $character->works()->detach();
+            $works = $request->work;
+            foreach ($works as $work) {
+                $character->works()->attach($work);
+            }
         }
-
         return redirect()->route('characters.index')->with('sucesso', 'Personagem editado com sucesso');
     }
 

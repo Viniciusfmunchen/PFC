@@ -27,6 +27,7 @@ textarea.input-dark{
 }
 input.input-dark-search{
     background-color: rgb(39 39 42);
+    color: white;
     border: none;
 }
 input.input-dark-search:focus{
@@ -102,3 +103,7 @@ a.btn-like:focus{
     margin: 0 auto;
 }
 
+img.img-fluid{
+    width: 100%;
+    height: 100%;
+}

@@ -83,16 +83,17 @@
                 {{$slot}}
             </div>
             <div class="col-3 bg-dark side sticky-top border-start border-secondary">
-                <form action="">
-                    <div class="search-box input-group rounded-pill px-3 py-1 mt-2">
-                        <span class="input-group-append d-flex align-items-center">
-                            <button typeof="submit" class="btn btn-info p-2" type="button">
-                                <i class="fa fa-search"></i>
-                            </button>
-                        </span>
-                        <input class="input-dark-search form-control" type="search" id="example-search-input" autocomplete="off">
-                    </div>
-                </form>
+                <div class="search-box input-group rounded-pill px-3 py-1 mt-2">
+                    <span class="input-group-append d-flex align-items-center">
+                        <button typeof="submit" class="btn btn-info p-2" type="button">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </span>
+                    <input class="input-dark-search form-control" type="search" id="search" name="search" autocomplete="off">
+                </div>
+                <ul class="text-light bg-secondary navbar-nav rounded-3 mt-2" id="search-results">
+
+                </ul>
             </div>
         </div>
 
@@ -102,6 +103,19 @@
     <script>
         $(document).ready(function(){
             $('.alert-primary').delay(3000).fadeOut();
+        });
+
+        $('#search').on('keyup', function (){
+            $search = $(this).val();
+            $.ajax({
+                type: 'GET',
+                url: '{{route('search')}}',
+                data: {'search':$search},
+
+                success:function(data){
+                    $('#search-results').html(data);
+                }
+            });
         });
     </script>
 </body>
