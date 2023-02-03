@@ -6,12 +6,11 @@
             <a class="btn btn-primary" href="{{route('characters.create')}}">Adicionar Personagem</a>
         </div>
         <div class="table-responsive">
-            <table class="form-light text-center">
+            <table class="table-dark">
                 <thead>
                     <tr>
                         <th scope="col">id</th>
                         <th scope="col">Name</th>
-                        <th scope="col">Description</th>
                         <th scope="col">Image</th>
                         <th scope="col">Editar</th>
                         <th scope="col">Excluir</th>

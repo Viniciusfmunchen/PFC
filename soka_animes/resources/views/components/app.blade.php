@@ -17,7 +17,7 @@
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     @vite('resources/css/app.css')
 </head>
-<body class="bg-dark">
+<body class="bg-dark text-light">
 @if(session('success'))
     <div class="alert alert-primary border border-primary">
         {{session('success')}}
@@ -91,7 +91,24 @@
                     </span>
                     <input class="input-dark-search form-control" type="search" id="search" name="search" autocomplete="off">
                 </div>
-                <ul class="text-light bg-secondary navbar-nav rounded-3 mt-2" id="search-results">
+                <ul class="text-light bg-secondary navbar-nav rounded-3 mt-2" >
+                    <div class="d-none" id="searched-show">
+                        <li class="nav-item p-3 border-bottom border-info">
+                            <div class="row">
+                                <div class="col-2">
+                                    <div class="image-post bg-info rounded-circle d-flex justify-content-center align-items-center">
+                                        <i class="fa-solid fa-search"></i>
+                                    </div>
+                                </div>
+                                <div class="col-10 d-flex align-items-center gx-5">
+                                    <span class="fw-bold" id="searched"></span>
+                                </div>
+                            </div>
+                        </li>
+                    </div>
+                    <div id="search-results">
+
+                    </div>
 
                 </ul>
             </div>
@@ -104,9 +121,16 @@
         $(document).ready(function(){
             $('.alert-primary').delay(3000).fadeOut();
         });
+        
 
         $('#search').on('keyup', function (){
             $search = $(this).val();
+            if($(this).val().length > 0){
+                    $('#searched').html($(this).val())
+                    $('#searched-show').removeClass('d-none');
+                } else {
+                    $('#searched-show').addClass('d-none');
+                }
             $.ajax({
                 type: 'GET',
                 url: '{{route('search')}}',

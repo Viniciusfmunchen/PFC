@@ -14,7 +14,7 @@
                 </a>
             </div>
             <div class="col-1 dropstart">
-                <a href="" class="text-decoration-none text-light" id="showMore" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-ellipsis"></i></a>
+                <a href="" class="text-decoration-none text-light" id="showMore" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-ellipsis">...</i></a>
                 <ul class="dropdown-menu bg-dark">
                     <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalTags{{$post->id}}"><i class="fa-solid fa-tags me-2"></i>Tags</button></li>
                     @if($post->user_id == Auth::user()->id)
@@ -96,7 +96,7 @@
                     <div class="col-6 d-block">
                         <h4>Personagens:</h4>
                         @foreach($characters as $character)
-                            <a href="" class="text-decoration-none text-light d-block"><span class="badge bg-secondary">{{$character->name}}</span></a>
+                            <a href="{{route('characters.show', $character->id)}}" class="text-decoration-none text-light d-block"><span class="badge bg-secondary">{{$character->name}}</span></a>
                         @endforeach
                     </div>
                 </div>

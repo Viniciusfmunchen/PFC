@@ -93,6 +93,7 @@ class WorkController extends Controller
     public function destroy(Work $work){
         $work->genders()->detach();
         $work->characters()->detach();
+        $work->posts()->detach();
         $work->delete();
         return redirect()->route('works.index')->with('sucesso', 'Obra excluido com sucesso');
     }

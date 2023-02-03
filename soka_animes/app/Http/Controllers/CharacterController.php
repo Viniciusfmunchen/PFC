@@ -67,12 +67,13 @@ class CharacterController extends Controller
                 $character->works()->attach($work);
             }
         }
-        return redirect()->route('characters.index')->with('sucesso', 'Personagem editado com sucesso');
+        return redirect()->route('characters.index')->with('success', 'Personagem editado com sucesso');
     }
 
     public function destroy(Character $character){
         $character->works()->detach();
+        $character->posts()->detach();
         $character->delete();
-        return redirect()->route('characters.index')->with('sucesso', 'Personagem excluido com sucesso');
+        return redirect()->route('characters.index')->with('success', 'Personagem excluido com sucesso');
     }
 }

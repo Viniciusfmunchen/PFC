@@ -6,7 +6,7 @@
         </div>
         <div class="mt-3">
             <h1>Listagem Obras</h1>
-            <table class="table-light">
+            <table class="table-dark">
                 <thead>
                     <tr>
                         <th scope="col">id</th>
