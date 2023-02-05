@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 
 class SearchController extends Controller
 {
+    public function __construct(){
+        $this->middleware('web');
+    }
+
     public function search(Request $request)
     {
         if (!$request->ajax()) {
@@ -63,6 +67,5 @@ class SearchController extends Controller
     
         return $response;
     }
-    
     
 }
