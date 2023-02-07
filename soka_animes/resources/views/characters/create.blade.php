@@ -28,8 +28,8 @@
                 <label>Animes:</label><br>
                 @foreach($works as $work)
                     @if($work->type == 0)
-                        <input type="checkbox" class="btn-check" name="work[]" id="gender{{$work->id}}" autocomplete="off" value="{{$work->id}}">
-                        <label class="btn btn-outline-primary" for="gender{{$work->id}}">{{$work->name}}</label>
+                        <input type="checkbox" class="btn-check" name="work[]" id="work{{$work->id}}" autocomplete="off" value="{{$work->id}}">
+                        <label class="btn btn-outline-primary" for="work{{$work->id}}">{{$work->name}}</label>
                     @endif
                 @endforeach
             </div>
@@ -37,8 +37,8 @@
                 <label>Mangas:</label><br>
                 @foreach($works as $work)
                     @if($work->type == 1)
-                        <input type="checkbox" class="btn-check" name="work[]" id="gender{{$work->id}}" autocomplete="off" value="{{$work->id}}">
-                        <label class="btn btn-outline-primary" for="gender{{$work->id}}">{{$work->name}}</label>
+                        <input type="checkbox" class="btn-check" name="work[]" id="work{{$work->id}}" autocomplete="off" value="{{$work->id}}">
+                        <label class="btn btn-outline-primary" for="work{{$work->id}}">{{$work->name}}</label>
                     @endif
                 @endforeach
             </div>
@@ -46,8 +46,8 @@
                 <label>Filmes:</label><br>
                 @foreach($works as $work)
                     @if($work->type == 2)
-                        <input type="checkbox" class="btn-check" name="work[]" id="gender{{$work->id}}" autocomplete="off" value="{{$work->id}}">
-                        <label class="btn btn-outline-primary" for="gender{{$work->id}}">{{$work->name}}</label>
+                        <input type="checkbox" class="btn-check" name="work[]" id="work{{$work->id}}" autocomplete="off" value="{{$work->id}}">
+                        <label class="btn btn-outline-primary" for="work{{$work->id}}">{{$work->name}}</label>
                     @endif
                 @endforeach
             </div>

@@ -39,23 +39,27 @@
                 </div>
                 <div class="collapse navbar-collapse mt-3">
                     <ul class="navbar-nav text-light d-block">
+                        @auth
+                            <li class="nav-item rounded-pill my-3">
+                                <a href="{{ route('welcome') }}" class="nav-link"><span
+                                        class="fa-solid fa-home me-2"></span> Pagina Inicial</a>
+                            </li>
+                            <li class="nav-item rounded-pill my-3">
+                                <a href="{{ route('home') }}" class="nav-link"><span class="fa-solid fa-user me-2"></span>
+                                    Perfil</a>
+                            </li>
+                        @endauth
                         <li class="nav-item rounded-pill my-3">
-                            <a href="{{ route('welcome') }}" class="nav-link"><span
-                                    class="fa-solid fa-home me-2"></span> Pagina Inicial</a>
-                        </li>
-                        <li class="nav-item rounded-pill my-3">
-                            <a href="{{ route('works.index') }}" class="nav-link"><span
-                                    class="fa-solid fa-search me-2"></span> Pesquisar</a>
-                        </li>
-                        <li class="nav-item rounded-pill my-3">
-                            <a href="{{ route('home') }}" class="nav-link"><span class="fa-solid fa-user me-2"></span>
-                                Perfil</a>
+                            <a href="{{ route('works.index') }}" class="nav-link"><span class="fa-solid fa-search me-2"></span> Pesquisar</a>
                         </li>
                     </ul>
                 </div>
                 <div class="d-flex justify-content-center">
-                    <a class="text-decoration-none text-white btn btn-primary rounded-pill px-5 py-2 mt-5"
-                        href="#"><b>TATAKAE!</b></a>
+                    @auth
+                        <button type="button" class="text-decoration-none text-white btn btn-primary rounded-pill px-5 py-2 mt-5 fw-bold" data-bs-toggle="modal" data-bs-target="#postModal">
+                            TATAKAE !
+                        </button>
+                    @endauth
                 </div>
                 <div class="dropdown text-light d-flex justify-content-center mt-5">
                     <button class="btn btn-dark rounded-pill dropdown-toggle" type="button" id="dropMenu"
@@ -91,26 +95,25 @@
                     </ul>
                 </div>
             </nav>
-            <div class="col-6 bg-dark">
+            <div class="col-6 bg-dark" style="padding: 0">
                 {{ $slot }}
             </div>
             <div class="col-3 bg-dark side sticky-top border-start border-secondary">
                 <div class="search-box input-group rounded-pill px-3 py-1 mt-2">
                     <span class="input-group-append d-flex align-items-center">
-                        <button typeof="submit" class="btn btn-info p-2" type="button">
+                        <button typeof="submit" class="btn search-box p-2" type="button">
                             <i class="fa fa-search"></i>
                         </button>
                     </span>
                     <input class="input-dark-search form-control" type="text" id="search" name="search"
                         autocomplete="off">
                 </div>
-                <ul class="text-light bg-secondary navbar-nav rounded-3 mt-2">
+                <ul class="show-search navbar-nav rounded-3 mt-2">
                     <div class="d-none" id="searched-show">
                         <li class="nav-item p-3 border-bottom border-info">
                             <div class="row">
                                 <div class="col-2">
-                                    <div
-                                        class="image-post bg-info rounded-circle d-flex justify-content-center align-items-center">
+                                    <div class="image-post bg-info rounded-circle d-flex justify-content-center align-items-center">
                                         <i class="fa-solid fa-search"></i>
                                     </div>
                                 </div>
@@ -127,12 +130,13 @@
                     <div id="search-results">
 
                     </div>
-
                 </ul>
             </div>
         </div>
-
     </div>
+    @auth
+        <x-post-form :works="$works" :characters="$characters"></x-post-form>
+    @endauth
     <script src="https://kit.fontawesome.com/4159a3a088.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
         crossorigin="anonymous"></script>
@@ -141,11 +145,16 @@
             $('.alert-primary').delay(3000).fadeOut();
         });
 
+        $(document).ready(function(){
+            $('#btn-focus-search-tags').on('click', function (){
+                $('#input-search-tags').focus();
+            });
+        });
 
-        var $element = $('#search');
+        var $searchInput = $('#search');
         var timer;
 
-        $element.on('input', function() {
+        $searchInput.on('input', function() {
             $('#search-results').html('');
             clearTimeout(timer);
             var $search = $.trim($(this).val());
@@ -167,13 +176,116 @@
                             $('#search-results').html(data);
                         }
                     });
-                }, 500); // esperar 500 milisegundos após a última entrada antes de realizar a requisição AJAX
+                }, 300);
             } else {
                 $('#searched-show, #search-results').toggleClass('d-none', true);
                 $('#loading').addClass('d-none');
             }
         });
+
+        const works = {!! json_encode($works->toArray(), JSON_HEX_TAG) !!};
+        const characters = {!! json_encode($characters->toArray(), JSON_HEX_TAG) !!};
+
+        $('#input-search-tags').on('input', function (){
+            $searchedTag = $(this).val().toLowerCase();
+
+            listedWorks.forEach(work =>{
+                const isWorkVisible = work.name.toLowerCase().includes($searchedTag);
+                if(isWorkVisible){
+                    work.label.removeClass("d-none");
+                    work.input.removeClass("d-none");
+                } else {
+                    work.label.addClass("d-none");
+                    work.input.addClass("d-none");
+                }
+            });
+            listedCharacters.forEach(character =>{
+                const isWorkVisible = character.name.toLowerCase().includes($searchedTag);
+                if(isWorkVisible){
+                    character.label.removeClass("d-none");
+                    character.input.removeClass("d-none");
+                } else {
+                    character.label.addClass("d-none");
+                    character.input.addClass("d-none");
+                }
+            });
+        });
+
+        var listedWorks = works.map(work =>{
+            var cloneTag = $('#template-tags').clone();
+            var cloneButton = cloneTag.find('.btn-check');
+            var cloneLabel = cloneTag.find('.label-check');
+            cloneButton.attr({
+               'name' : 'work[]',
+               'id'   : 'work' + work.id
+            });
+            cloneButton.val(work.id);
+            cloneLabel.attr({
+               'for' : 'work' + work.id,
+            });
+            cloneLabel.text(work.name);
+            if(work.type === '1'){
+                cloneLabel.addClass('btn btn-outline-manga')
+            }else{
+                cloneLabel.addClass('btn btn-outline-anime')
+            }
+            $('#searchedTags').append(cloneButton);
+            $('#searchedTags').append(cloneLabel);
+            return {
+                name: work.name, label: cloneLabel, input: cloneButton, type: work.type
+            }
+        });
+        var listedCharacters = characters.map(character =>{
+            var cloneTag = $('#template-tags').clone();
+            var cloneButton = cloneTag.find('.btn-check');
+            var cloneLabel = cloneTag.find('.label-check');
+            cloneButton.attr({
+                'name' : 'character[]',
+                'id'   : 'character' + character.id
+            });
+            cloneButton.val(character.id);
+            cloneLabel.attr({
+                'for' : 'character' + character.id,
+            });
+            cloneLabel.text(character.name);
+            cloneLabel.addClass('btn-outline-character');
+            $('#searchedTags').append(cloneButton);
+            $('#searchedTags').append(cloneLabel);
+            return {
+                name: character.name, label: cloneLabel, input: cloneButton
+            }
+        });
+
+        var $checkboxes = $(".tags");
+        var selectedTags = $("#selected-tags");
+
+        $.each($checkboxes, function(index, checkbox){
+            $(checkbox).on('click', function (){
+                var labelText = $(checkbox).next().text();
+                var labelClass = $(checkbox).next().attr('class');
+
+                if ($(checkbox).prop("checked")) {
+                    if(labelClass.includes("anime")){
+                        selectedTags.append('<span class="badge bg-anime fe-bold text-dark" style="margin-inline: 3px">' + labelText + '<a href="" class="remove-badge"><i class="ms-1 fa-solid fa-x"></i></a></span>');
+                    }else if(labelClass.includes("manga")){
+                        selectedTags.append('<span class="badge bg-manga fe-bold text-dark" style="margin-inline: 3px">' + labelText + '<a href="" class="remove-badge"><i class="ms-1 fa-solid fa-x"></i></a></span>');
+                    }else if(labelClass.includes("character")){
+                        selectedTags.append('<span class="badge bg-character fe-bold text-dark" style="margin-inline: 3px">' + labelText + '<a href="" class="remove-badge"><i class="ms-1 fa-solid fa-x"></i></a></span>');
+                    }
+                }else{
+                    selectedTags.find('span:contains("' + labelText + '")').remove();
+                }
+            });
+        });
+        $(document).on("click", ".remove-badge", function(e) {
+            e.preventDefault();
+            var badgeText = $(this).parent().text();
+            var label = $('label:contains("' + badgeText + '")');
+            var checkbox = label.prev('input[type="checkbox"]');
+            checkbox.prop("checked", false);
+            $(this).parent().remove();
+        });
+
     </script>
 </body>
-
 </html>

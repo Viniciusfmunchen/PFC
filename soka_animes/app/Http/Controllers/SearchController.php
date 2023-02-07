@@ -17,12 +17,12 @@ class SearchController extends Controller
         if (!$request->ajax()) {
             return;
         }
-    
+
         $response = '';
         if (!$request->search) {
             return;
         }
-    
+
         $works = Work::where('name', 'LIKE', '%'.$request->search.'%')
                     ->orWhereHas('characters', function ($q) use ($request) {
                         $q->where('name', 'like', "%$request->search%");
@@ -31,7 +31,7 @@ class SearchController extends Controller
                         $q->where('gender', 'like', "%$request->search%");
                     })
                     ->get();
-    
+
         if ($works->count() > 0) {
             foreach ($works as $work) {
                 $response .= '<li class="nav-item p-3 border-bottom border-info">
@@ -46,7 +46,7 @@ class SearchController extends Controller
                 </li>';
             }
         }
-    
+
         $characters = Character::where('name', 'LIKE', '%'.$request->search.'%')->get();
         if ($characters->count() > 0) {
             foreach ($characters as $character) {
@@ -64,8 +64,36 @@ class SearchController extends Controller
                 </a>';
             }
         }
-    
+
         return $response;
     }
-    
+
+    public function searchTags(Request $request){
+        if (!$request->ajax()) {
+            return;
+        }
+
+        $response = '';
+
+        $works = Work::where('name', 'LIKE', '%'.$request->search.'%')
+            ->orWhereHas('characters', function ($q) use ($request) {
+                $q->where('name', 'like', "%$request->search%");
+            })->get();
+        if ($works->count() > 0) {
+            foreach ($works as $work) {
+                $response .= '<input type="checkbox" class="btn-check btn-tag" name="work[]" id="work'.$work['id'].'" autocomplete="off" value="'.$work['id'].'">
+                              <label class="btn btn-outline-success" for="work'.$work['id'].'">'.$work['name'].'</label>';
+
+            }
+        }
+
+        $characters = Character::where('name', 'LIKE', '%'.$request->search.'%')->get();
+        if ($characters->count() > 0) {
+            foreach ($characters as $character) {
+                $response .= '<input type="checkbox" class="btn-check btn-tag" name="character[]" id="character'.$character['id'].'" autocomplete="off" value="'.$character['id'].'">
+                              <label class="btn btn-outline-warning" for="character'.$character['id'].'">'.$character['name'].'</label>';
+            }
+        }
+        return $response;
+    }
 }

@@ -84,7 +84,6 @@
                     <select class="form-control" name="type" id="type" required>
                         <option value="0" @if($work->type == 0) selected @endif>Animes</option>
                         <option value="1" @if($work->type == 1) selected @endif>Manga</option>
-                        <option value="2" @if($work->type == 2) selected @endif>Filme</option>
                     </select>
                     @error('type')
                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>

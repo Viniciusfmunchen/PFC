@@ -7,9 +7,25 @@ $font-size-base: 0.9rem;
 $line-height-base: 1.6;
 
 //colors
-$dark: rgb(24 24 27);
-$info: rgb(39 39 42);
-$secondary: rgb(63 63 70);
+$dark: #1C162A;
+$info: #443465;
+$secondary: #302548;
 $primary: rebeccapurple;
+$light: #e9ecef;
+
+$theme-colors: (
+    "primary":    $primary,
+    "secondary":  $secondary,
+    "info":       $info,
+    "danger":    #DC3545FF,
+    "light":      $light,
+    "dark":       $dark,
+    "anime":      #4599C2,
+    "manga":      #58EFEC,
+    "character":  #CEE26B
+);
+
+$modal-backdrop-opacity: .1;
+$modal-backdrop-bg: mediumpurple;
 
 

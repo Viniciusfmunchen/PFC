@@ -81,9 +81,8 @@
                 <div class="form-group col">
                     <label for="type">Tipo da Obra:</label>
                     <select class="form-control" name="type" id="type" required>
-                        <option value="0">Animes</option>
+                        <option value="0">Anime</option>
                         <option value="1">Manga</option>
-                        <option value="2">Filme</option>
                     </select>
                     @error('type')
                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>

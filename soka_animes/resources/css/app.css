@@ -12,38 +12,44 @@
 }
 
 .input-dark{
-    border: none;
     background-color: rgba(52, 58, 64, 0.1);
+    border: none;
     color: white;
 }
 .input-dark:focus{
     background-color: rgba(52, 58, 64, 0.1);
     box-shadow: none;
+    outline: none;
     color: white;
 }
 textarea.input-dark{
+    background-color: rgba(52, 58, 64, 0.1);
     height: 120px;
     resize: none;
 }
 input.input-dark-search{
-    background-color: rgb(39 39 42);
-    color: white;
+    background-color: rgba(0, 0, 0, 0);
     border: none;
+    color: white;
 }
 input.input-dark-search:focus{
-    background-color: rgb(39 39 42);
+    background-color: rgba(39, 39, 42, 0.0);
     color: white;
     outline: none;
     box-shadow: none;
 }
 div.search-box{
-    background-color: rgb(39 39 42);
+    background-color: rgba(68, 52, 101, 0.2);
 }
 div.search-box:focus-within{
     border: 2px solid rebeccapurple;
 }
-
-
+button.search-box{
+    color: white;
+}
+ul.show-search{
+    background-color: rgba(68, 52, 101, 0.2);
+}
 .btn-dark:focus{
     box-shadow: none;
 }
@@ -52,7 +58,7 @@ button.btn-comment{
     box-shadow: none;
     border: none;
     background-color: rgba(0, 0, 0, 0);
-    color:  #6c757d;
+    color: rgba(255, 255, 255, 0.5);
     transition: 0.5s;
 }
 button.btn-comment:hover{
@@ -68,8 +74,7 @@ button.btn-comment:focus{
 a.btn-like{
     box-shadow: none;
     border: none;
-    background-color: rgba(0, 0, 0, 0);
-    color:  #6c757d;
+    color: rgba(255, 255, 255, 0.5);;
     text-decoration: none;
     transition: 0.5s;
 }
@@ -91,10 +96,6 @@ a.btn-like:focus{
     color: white;
 }
 
-.image-post{
-    width: 45px;
-    height: 45px;
-}
 .alert {
     position: fixed;
     left: 50%;
@@ -103,7 +104,120 @@ a.btn-like:focus{
     margin: 0 auto;
 }
 
-img.img-fluid{
-    width: 100%;
-    height: 100%;
+/* ===== Scrollbar CSS ===== */
+/* Firefox */
+* {
+    scrollbar-width: none;
+    scrollbar-color: #9370db #2b2727;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+    width: 10px;
+}
+
+*::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0);
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #302548FF;
+    border-radius: 6px;
+    border: 13px none #ffffff;
+}
+
+.card-img-top{
+    height:200px;
+}
+
+.pro-img {
+    margin-top: -80px;
+    margin-bottom: 20px
+}
+
+.little-profile .pro-img img {
+    width: 128px;
+    height: 128px;
+    -webkit-box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    border-radius: 100%;
+    outline: 5px solid #1C162A;
+}
+
+.little-profile .pro-img-icon img {
+    width: 45px;
+    height: 45px;
+    -webkit-box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    border-radius: 100%;
+    outline: 5px solid #1C162A;
+}
+
+html body .m-b-0 {
+    margin-bottom: 0px
+}
+
+h3 {
+    line-height: 30px;
+    font-size: 21px
+}
+
+.btn-rounded.btn-md {
+    padding: 12px 35px;
+    font-size: 16px
+}
+
+html body .m-t-10 {
+    margin-top: 10px
+}
+
+.btn-rounded {
+    border-radius: 60px;
+    padding: 7px 18px
+}
+
+.m-t-20 {
+    margin-top: 20px
+}
+
+.text-center {
+    text-align: center !important
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 1rem
+}
+
+a.active {
+    border-bottom: 2px solid #55c57a;
+}
+
+.tabs.nav-link {
+    color: rgb(110, 110, 110);
+    border-radius: 0;
+    font-weight: 500;
+}
+
+.nav-pills .nav-link{
+    border-bottom: 3px solid #302548FF;
+    font-weight: 600;
+}
+
+.nav-pills .nav-link:hover{
+    color: rebeccapurple;
+    background-color: rgba(147, 112, 219, 0.1);
+    border-bottom: 3px solid transparent;
+    font-weight: 600;
+}
+
+.nav-pills .nav-link.active {
+    color: white;
+    background-color: transparent;
+    border-bottom: 3px solid rebeccapurple;
+    font-weight: 600;
+}
+
+label.following:hover{
+    color: red;
 }

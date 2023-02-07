@@ -1,150 +1,47 @@
-<div class="text-light border-bottom border-secondary">
-    <form action="{{route('posts.store')}}" method="POST">
-        <div class="card-header mt-3">
-            <div class="row mb-2">
-                <div class="col-1">
-                <div class="image-post bg-secondary rounded-circle d-flex justify-content-center align-items-center">
+<form action="{{route('posts.store')}}" method="POST" class="mb-3">
+    @csrf
+<div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark px-3 pt-3">
+            <div class="modal-body">
+                <div
+                    class="image-post bg-secondary rounded-circle d-flex justify-content-center align-items-center mb-3">
                     <i class="fa-solid fa-user"></i>
                 </div>
+                <textarea class="form-control input-dark rounded-3" name="content" id="content"
+                          placeholder="Faça uma nova publicação.."></textarea>
+                <input type="hidden" value="{{Auth::user()->id}}" name="user_id">
+                <div id="selected-tags" class="mt-1">
+
                 </div>
-                <div class="col-10 d-flex align-items-center">
-                <h5 style="margin: 0">{{Auth::user()->name}}</h5>
+                <div class="input-group rounded- mt-3" id="input-group-tags">
+                    <span class="input-group-append d-flex align-items-center" data-bs-toggle="popover" data-bs-trigger="hover focus">
+                        <button id="btn-focus-search-tags" class="btn btn-secondary p-2" type="button" >
+                            <i class="fa fa-tags"></i>
+                        </button>
+                    </span>
+                    <input class="input-dark form-control" type="text" id="input-search-tags" name="search-tags"
+                           autocomplete="off" placeholder="Pesquise tags para sua publicacao">
                 </div>
-            </div>
-        </div>
-        <div class="card-body">
-            @csrf
-            <textarea class="form-control scroll input-dark" type="text" name="content" id="content" maxlength="500" placeholder="Faca uma nova publicacao"></textarea>
-            <input class="d-none" value="{{Auth::user()->id}}" name="user_id" id="user_id">
-            <div class="row d-flex">
-                <div class="col-6">
-                    <button type="button" class="btn btn-primary dropdown-toggle m-3 rounded-pill" data-bs-toggle="modal"
-                    data-bs-target="#modalWorks">
-                        Obras
-                    </button>
-                    <button type="button" class="btn btn-primary dropdown-toggle rounded-pill" data-bs-toggle="modal"
-                    data-bs-target="#modalCharacters">
-                        Personagens
-                    </button>
-                </div>
-                <div class="col-6 my-auto text-end">
-                    <button type="submit" class="btn btn-primary rounded-pill">Postar</button>
-                </div>
-            </div>
-        </div>
-        <div class="modal fade" id="modalWorks" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-            aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content bg-dark">
-                    <div class="modal-header border-secondary">
-                        <input class="form-control input-dark" placeholder="Pesquise por obras..." type="search" name="searchWorks" data-search-work>
+                <div class="input-dark rounded-3 mt-3">
+                    <div class="sticky-top px-2 pt-1 pb-2 rounded-top">
+                        <span class="badge bg-anime text-dark fw-bold"><b>ANIMES</b></span>
+                        <span class="badge bg-manga text-dark fw-bold"><b>MANGAS</b></span>
+                        <span class="badge bg-character text-dark fw-bold"><b>PERSONAGENS</b></span>
                     </div>
-                    <div class="modal-body" data-works-container>
-                        <div class="d-none" data-works-template>
-                            <input type="checkbox" class="btn-check" name="" id="" autocomplete="off" value="">
-                            <label class="btn btn-outline-primary text-light mx-1" for=""></label>
+                    <div id="searchedTags" class="p-2"  style="overflow: auto; height: 150px">
+                        <div id="template-tags" class="d-none">
+                            <input type="checkbox" class="btn-check tags" name="" id="" autocomplete="off" value="">
+                            <label class="btn btn-outline-primary label-check fw-bold mx-1 mt-2 d-flex align-items-center" for=""></label>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="modal fade" id="modalCharacters" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content bg-dark">
-                    <div class="modal-header border-secondary">
-                        <input class="form-control input-dark" placeholder="Pesquise por personagens..." type="search"
-                            name="searchCharacters" data-search-characters>
-                    </div>
-                    <div class="modal-body" data-characters-container>
-
-                    </div>
-                </div>
+            <div class="modal-footer border-secondary">
+                <button type="submit" class="btn btn-primary">Publicar</button>
             </div>
         </div>
-        <span><i class="fa-solid fa-tags me-1"></i>Tags:</span>
-        <div class="p-2" id="checkedContainer"></div>
-
-    </form>
+    </div>
 </div>
-<script type="text/javascript" defer>
-    const works = {!! json_encode($works->toArray(), JSON_HEX_TAG) !!};
-    const characters = {!! json_encode($characters->toArray(), JSON_HEX_TAG) !!};
+</form>
 
-    const templateList = document.querySelector("[data-works-template]");
-
-    const containerWorks = document.querySelector("[data-works-container]")
-    const searchWork = document.querySelector("[data-search-work]");
-    let listedWorks = [];
-
-    const containerCharacters = document.querySelector("[data-characters-container]");
-    const searchCharacter = document.querySelector("[data-search-characters]");
-    let listedCharacters = [];
-
-    let selectedTags = [];
-
-    searchWork.addEventListener('input', e =>{
-        const value = e.target.value.toLowerCase();
-        listedWorks.forEach(work =>{
-           const isWorkVisible = work.name.toLowerCase().includes(value);
-           work.label.classList.toggle("d-none", !isWorkVisible);
-           work.input.classList.toggle("d-none", !isWorkVisible);
-        });
-    });
-
-    searchCharacter.addEventListener('input', e =>{
-       const value = e.target.value.toLowerCase();
-        listedCharacters.forEach(character =>{
-            const isCharacterVisible = character.name.toLowerCase().includes(value);
-            character.label.classList.toggle("d-none", !isCharacterVisible);
-            character.input.classList.toggle("d-none", !isCharacterVisible);
-        });
-    });
-
-    listedWorks = works.map(work =>{
-        const inputWork = templateList.children[0].cloneNode()
-        const labelWork = templateList.children[1].cloneNode()
-        inputWork.id = work.name;
-        inputWork.value = work.id;
-        inputWork.name = "work[]";
-        labelWork.textContent = work.name;
-        labelWork.htmlFor = work.name;
-        containerWorks.append(inputWork);
-        containerWorks.append(labelWork);
-        return {
-            name: work.name, label: labelWork, input: inputWork
-        }
-    });
-    listedCharacters = characters.map(character =>{
-        const inputCharacter = templateList.children[0].cloneNode()
-        const labelCharacter = templateList.children[1].cloneNode()
-        inputCharacter.id = character.name;
-        inputCharacter.value = character.id;
-        inputCharacter.name = "character[]";
-        labelCharacter.textContent = character.name;
-        labelCharacter.htmlFor = character.name;
-        containerCharacters.append(inputCharacter);
-        containerCharacters.append(labelCharacter);
-        return {
-            name: character.name, label: labelCharacter, input: inputCharacter
-        }
-    });
-
-    const checkboxes = document.querySelectorAll("input[type=checkbox]");
-    const checkedContainer = document.getElementById('checkedContainer');
-
-    checkboxes.forEach(checkbox =>{
-        checkbox.addEventListener('click', e =>{
-            if(checkbox.checked == true){
-                selectedTags.push(`<span class="badge rounded-pill bg-secondary">${checkbox.id}</span>`);
-                checkedContainer.innerHTML = selectedTags.join(' ');
-            }else{
-                let index = selectedTags.indexOf(`<span class="badge rounded-pill bg-secondary">${checkbox.id}</span>`);
-                if(index > -1){
-                    selectedTags.splice(index, 1);
-                    checkedContainer.innerHTML = selectedTags.join(' ');
-                }
-            }
-        });
-    });
-</script>
