@@ -44,4 +44,20 @@ class GenderController extends Controller
         $gender->delete();
         return redirect()->route('genders.index')->with('sucesso', 'Genero excluido com sucesso');
     }
+
+    public function createGenderFromWork(Request $request){
+        if(!$request->ajax()){
+            return;
+        }
+
+        $validated = $request->validate([
+            'gender' => 'required | min: 3 | max: 20',
+        ]);
+
+        $gender = Gender::create($validated);
+        $genderBtn = '<input type="checkbox" class="btn-check" name="gender[]" id="gender'.$gender->id.'" autocomplete="off" value="'.$gender->id.'">
+              <label class="btn btn-outline-primary text-light" for="gender'.$gender->id.'"><b>'.$gender->gender.'</b></label>';;
+
+        return $genderBtn;
+    }
 }

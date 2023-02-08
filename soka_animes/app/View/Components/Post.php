@@ -12,15 +12,15 @@ class Post extends Component
      * @return void
      */
 
-    public $username;
+    public $user;
     public $post;
     public $works;
     public $characters;
     public $comments;
 
-    public function __construct($username, $post, $works, $characters)
+    public function __construct($user, $post, $works, $characters)
     {
-        $this->username = $username;
+        $this->user = $user;
         $this->post = $post;
         $this->works = $works;
         $this->characters = $characters;

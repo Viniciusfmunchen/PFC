@@ -5,14 +5,14 @@
             @method('PUT')
             <div class="form-group">
                 <label for="name">Nome:</label>
-                <input class="form-control" type="text" name="name" id="name" value="{{$character->name}}">
+                <input class="form-control input-dark" type="text" name="name" id="name" value="{{$character->name}}">
                 @error('name')
                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                 @enderror
             </div>
             <div class="form-group">
                 <label for="description">Descricao:</label>
-                <textarea class="form-control" name="description" id="description">
+                <textarea class="form-control input-dark" name="description" id="description">
                     {{$character->description}}
                 </textarea>
                 @error('description')
@@ -21,7 +21,7 @@
             </div>
             <div class="form-group">
                 <label for="image">Imagem:</label>
-                <input class="form-control" type="text" name="image" id="image" value="{{$character->image}}">
+                <input class="form-control input-dark" type="text" name="image" id="image" value="{{$character->image}}">
                 @error('image')
                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                 @enderror

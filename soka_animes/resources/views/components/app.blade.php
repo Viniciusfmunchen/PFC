@@ -27,8 +27,7 @@
     @endif
     <div class="container">
         <div class="row">
-            <nav
-                class="col-3 side navbar-expand-lg navbar-dark bg-dark p-4 bg-dark sticky-top border-end border-secondary">
+            <nav class="col-3 side navbar-expand-lg navbar-dark p-4 bg-dark sticky-top border-end border-secondary">
                 <a href="#" class="navbar-brand">
                     <h2 class="text-uppercase fw-bold">🐵 Soka Animes</h2>
                 </a>
@@ -61,38 +60,49 @@
                         </button>
                     @endauth
                 </div>
-                <div class="dropdown text-light d-flex justify-content-center mt-5">
-                    <button class="btn btn-dark rounded-pill dropdown-toggle" type="button" id="dropMenu"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        @guest @if (Route::has('login') || Route::has('register'))
-                            Entrar
-                        @endif
-                    @else
-                        {{ Auth::user()->name }}@endguest
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropMenu">
-                        @guest()
-                            @if (Route::has('login'))
-                                <li>
-                                    <a href="{{ route('login') }}" class="dropdown-item">Login</a>
-                                </li>
-                            @endif
+                <div class="d-flex justify-content-center">
+                    <div class="dropup-center text-light d-flex justify-content-center mt-5"
+                         style="position:absolute; bottom: 20px">
+                        <button
+                            class=" dropdown-toggle btn btn-dark rounded-pill d-flex justify-content-center align-items-center"
+                            type="button" id="dropMenu"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            @guest
+                                @if (Route::has('login') || Route::has('register'))
+                                    Entrar
+                                @endif
+                            @else
+                                <div class="little-profile">
+                                    <div class="pro-img-icon-no-line d-inline me-1"><img
+                                            src="{{'/img/profile-images/' . Auth::user()->profile_image}}"></div>
+                                    <div class=" d-inline"><b>{{Auth::user()->name}}</b></div>
+                                </div>
+                            @endguest
+                        </button>
+                        <ul class="dropdown-menu bg-secondary" aria-labelledby="dropMenu">
+                            @guest()
+                                @if (Route::has('login'))
+                                    <li>
+                                        <a href="{{ route('login') }}" class="dropdown-item">Login</a>
+                                    </li>
+                                @endif
 
-                            @if (Route::has('register'))
+                                @if (Route::has('register'))
+                                    <li>
+                                        <a href="{{ route('register') }}" class="dropdown-item">Cadastro</a>
+                                    </li>
+                                @endif
+                            @else
                                 <li>
-                                    <a href="{{ route('register') }}" class="dropdown-item">Cadastro</a>
+                                    <a href="{{ route('logout') }}" class="dropdown-item"
+                                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Sair</a>
+                                    <form action="{{ route('logout') }}" id="logout-form" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
                                 </li>
-                            @endif
-                        @else
-                            <li>
-                                <a href="{{ route('logout') }}" class="dropdown-item"
-                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Sair</a>
-                                <form action="{{ route('logout') }}" id="logout-form" method="POST" class="d-none">
-                                    @csrf
-                                </form>
-                            </li>
-                        @endguest
-                    </ul>
+                            @endguest
+                        </ul>
+                    </div>
                 </div>
             </nav>
             <div class="col-6 bg-dark" style="padding: 0">

@@ -1,7 +1,7 @@
 <x-app title='Home'>
     <div class="container">
         <h1>Bem vindo!</h1>
-        Soka Animes - Tristeza e Depressao
+        Soka Animes
         <div class="mt-3">
             <a class="btn btn-dark" href="{{route('works.index')}}">Listagem Obras</a>
         </div>

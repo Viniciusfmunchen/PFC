@@ -64,9 +64,15 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $defaultImage = rand(1, 5);
+        $data['profile_image'] = "default-". $defaultImage . ".jpg";
+        $data['profile_cover'] = "default-cover-". $defaultImage . ".jpg";
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'profile_image' => $data['profile_image'],
+            'profile_cover' => $data['profile_cover'],
             'password' => Hash::make($data['password']),
         ]);
     }

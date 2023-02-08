@@ -4,9 +4,9 @@
     <div class="modal-dialog">
         <div class="modal-content bg-dark px-3 pt-3">
             <div class="modal-body">
-                <div
-                    class="image-post bg-secondary rounded-circle d-flex justify-content-center align-items-center mb-3">
-                    <i class="fa-solid fa-user"></i>
+                <div class="little-profile mb-3">
+                    <div class="pro-img-icon d-inline me-1"><img src="{{'/img/profile-images/' . Auth::user()->profile_image}}"></div>
+                    <div class=" d-inline"><b>{{Auth::user()->name}}</b></div>
                 </div>
                 <textarea class="form-control input-dark rounded-3" name="content" id="content"
                           placeholder="Faça uma nova publicação.."></textarea>
@@ -16,11 +16,9 @@
                 </div>
                 <div class="input-group rounded- mt-3" id="input-group-tags">
                     <span class="input-group-append d-flex align-items-center" data-bs-toggle="popover" data-bs-trigger="hover focus">
-                        <button id="btn-focus-search-tags" class="btn btn-secondary p-2" type="button" >
-                            <i class="fa fa-tags"></i>
-                        </button>
+                        <label for="input-search-tags" class="me-2"><i class="fa-solid fa-tags"></i></label>
                     </span>
-                    <input class="input-dark form-control" type="text" id="input-search-tags" name="search-tags"
+                    <input class="input-dark form-control px-1" type="text" id="input-search-tags" name="search-tags"
                            autocomplete="off" placeholder="Pesquise tags para sua publicacao">
                 </div>
                 <div class="input-dark rounded-3 mt-3">
