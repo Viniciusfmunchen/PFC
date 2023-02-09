@@ -22,7 +22,7 @@
                            autocomplete="off" placeholder="Pesquise tags para sua publicacao">
                 </div>
                 <div class="input-dark rounded-3 mt-3">
-                    <div class="sticky-top px-2 pt-1 pb-2 rounded-top">
+                    <div class="sticky-top px-2 pt-1 pb-2 rounded-top bg-dark border-bottom border-primary">
                         <span class="badge bg-anime text-dark fw-bold"><b>ANIMES</b></span>
                         <span class="badge bg-manga text-dark fw-bold"><b>MANGAS</b></span>
                         <span class="badge bg-character text-dark fw-bold"><b>PERSONAGENS</b></span>

@@ -19,7 +19,7 @@
     @vite('resources/css/app.css')
 </head>
 
-<body class="bg-dark text-light">
+<body class="text-light bg-dark">
     @if (session('success'))
         <div class="alert alert-primary border border-primary">
             {{ session('success') }}
@@ -69,7 +69,7 @@
                             data-bs-toggle="dropdown" aria-expanded="false">
                             @guest
                                 @if (Route::has('login') || Route::has('register'))
-                                    Entrar
+                                    <b  >Entrar</b>
                                 @endif
                             @else
                                 <div class="little-profile">
@@ -123,7 +123,7 @@
                         <li class="nav-item p-3 border-bottom border-info">
                             <div class="row">
                                 <div class="col-2">
-                                    <div class="image-post bg-info rounded-circle d-flex justify-content-center align-items-center">
+                                    <div class="image-post bg-info rounded-circle d-flex justify-content-center align-items-center" style="width: 45px; height: 45px">
                                         <i class="fa-solid fa-search"></i>
                                     </div>
                                 </div>
