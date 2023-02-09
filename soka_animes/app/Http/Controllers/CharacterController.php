@@ -76,4 +76,22 @@ class CharacterController extends Controller
         $character->delete();
         return redirect()->route('characters.index')->with('success', 'Personagem excluido com sucesso');
     }
+
+    public function createCharacterFromWork(Request $request){
+        if(!$request->ajax()){
+            return;
+        }
+
+        $validated = $request->validate([
+            'name' => 'required',
+            'description' => 'required | min:50 | max:1000',
+            'image' => 'required'
+        ]);
+
+        $character = Character::create($validated);
+        $characterBtn = '<input type="checkbox" class="btn-check" name="character[]" id="gender'.$character->id.'" autocomplete="off" value="'.$character->id.'">
+              <label class="btn btn-outline-primary label-check fw-bold mx-1 mt-2 d-flex align-items-center fs-5 justify-content-center" for="gender'.$character->id.'"><b>'.$character->name.'</b></label>';;
+
+        return $characterBtn;
+    }
 }

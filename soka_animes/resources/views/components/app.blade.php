@@ -25,6 +25,15 @@
             {{ session('success') }}
         </div>
     @endif
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <div class="container">
         <div class="row">
             <nav class="col-3 side navbar-expand-lg navbar-dark p-4 bg-dark sticky-top border-end border-secondary">
@@ -44,7 +53,7 @@
                                         class="fa-solid fa-home me-2"></span> Pagina Inicial</a>
                             </li>
                             <li class="nav-item rounded-pill my-3">
-                                <a href="{{ route('home') }}" class="nav-link"><span class="fa-solid fa-user me-2"></span>
+                                <a href="{{ route('home') }}" class="nav-link">@if(Auth::user()->isAdmin())<span class="fa-solid fa-user-plus me-2">@else<span class="fa-solid fa-user me-2">@endif</span>
                                     Perfil</a>
                             </li>
                         @endauth
@@ -55,9 +64,13 @@
                 </div>
                 <div class="d-flex justify-content-center">
                     @auth
-                        <button type="button" class="text-decoration-none text-white btn btn-primary rounded-pill px-5 py-2 mt-5 fw-bold" data-bs-toggle="modal" data-bs-target="#postModal">
-                            TATAKAE !
-                        </button>
+                        @if(Auth::user()->isAdmin())
+                            <a class="text-decoration-none text-white btn btn-primary rounded-pill px-5 py-2 mt-5 fw-bold" href="{{route('works.create')}}">Adicionar Obra</a>
+                        @else
+                            <button type="button" class="text-decoration-none text-white btn btn-primary rounded-pill px-5 py-2 mt-5 fw-bold" data-bs-toggle="modal" data-bs-target="#postModal">
+                                TATAKAE!
+                            </button>
+                        @endif
                     @endauth
                 </div>
                 <div class="d-flex justify-content-center">
@@ -69,7 +82,7 @@
                             data-bs-toggle="dropdown" aria-expanded="false">
                             @guest
                                 @if (Route::has('login') || Route::has('register'))
-                                    <b  >Entrar</b>
+                                    <b>Entrar</b>
                                 @endif
                             @else
                                 <div class="little-profile">
@@ -152,7 +165,7 @@
         crossorigin="anonymous"></script>
     <script>
         $(document).ready(function() {
-            $('.alert-primary').delay(3000).fadeOut();
+            $('.alert').delay(3000).fadeOut();
         });
 
         $(document).ready(function(){

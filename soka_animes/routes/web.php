@@ -26,6 +26,7 @@ Route::get('/', function () {
         Route::resource('works', \App\Http\Controllers\WorkController::class);
 
         Route::resource('characters', \App\Http\Controllers\CharacterController::class);
+        Route::post('work/character/create', [\App\Http\Controllers\CharacterController::class, 'createCharacterFromWork'])->name('work.character');
 
         Route::resource('posts', App\Http\Controllers\PostController::class);
 
