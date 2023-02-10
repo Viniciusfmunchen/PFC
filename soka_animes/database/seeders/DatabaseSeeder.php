@@ -22,6 +22,6 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('adminsokaanimes')
         ]);
 
-        \App\Models\User::factory(10)->create();
+        \App\Models\User::factory(50)->create();
     }
 }

@@ -78,7 +78,7 @@
                     <div id="addWorkGenders" class="p-2"  style="overflow: auto; height: 200px">
                         @foreach ($genders as $gender)
                             <input type="checkbox" class="btn-check" name="gender[]" id="gender{{$gender->id}}" autocomplete="off" value="{{$gender->id}}">
-                            <label class="btn btn-outline-gender label-check fw-bold mx-1 mt-2 d-flex align-items-center fs-5 justify-content-center" for="gender{{$gender->id}}"><b>{{$gender->gender}}</b></label>
+                            <label class="btn btn-outline-gender label-check fw-bold mx-1 mt-2 d-flex align-items-center fs-5 justify-content-center workGenderListed" for="gender{{$gender->id}}"><b>{{$gender->gender}}</b></label>
                         @endforeach
                     </div>
                 </div>
@@ -99,7 +99,7 @@
                     <div id="addWorkCharacters" class="p-2"  style="overflow: auto; height: 200px">
                         @foreach ($characters as $character)
                             <input type="checkbox" class="btn-check" name="character[]" id="character{{$character->id}}" autocomplete="off" value="{{$character->id}}">
-                            <label class="btn btn-outline-character label-check fw-bold mx-1 mt-2 d-flex align-items-center fs-5 justify-content-center" for="character{{$character->id}}"><b>{{$character->name}}</b></label>
+                            <label class="btn btn-outline-character label-check fw-bold mx-1 mt-2 d-flex align-items-center fs-5 justify-content-center workCharacterListed" id="btnAdd" for="character{{$character->id}}"><b>{{$character->name}}</b></label>
                         @endforeach
                     </div>
                 </div>
@@ -170,7 +170,6 @@
 <script>
     $('#saveGender').on('click', function(){
        $gender = $('#workGender').val();
-       if($gender.val !== ''){
            $.ajax({
                type: 'POST',
                url: '{{ route('work.gender') }}',
@@ -181,11 +180,11 @@
                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                },
                success: function(data) {
-                   $("#addWorkGenders").prepend(data);
-                   $gender.val('');
+                   console.log(data);
+                   $('#addWorkGenders').prepend(data);
+                   $('#workGender').val('');
                }
-           });
-       }
+       });
     });
 
     $('#saveCharacter').on('click', function(){
@@ -211,5 +210,30 @@
                 }
         });
     })
+
+    $('#searchGendersWork').on('input', function() {
+        var searchGender = $(this).val().toLowerCase();
+        $('.workGenderListed').each(function() {
+            if ($(this).text().toLowerCase().includes(searchGender)) {
+                console.log($(this).text)
+                $(this).removeClass('d-none')
+            } else {
+                $(this).addClass('d-none');
+            }
+        });
+    });
+
+    $('#searchCharactersWork').on('input', function() {
+        var searchCharacter = $(this).val().toLowerCase();
+        console.log(searchCharacter);
+        $('.workCharacterListed').each(function() {
+            if ($(this).text().toLowerCase().includes(searchCharacter)) {
+                console.log($(this).text)
+                $(this).removeClass('d-none')
+            } else {
+                $(this).addClass('d-none');
+            }
+        });
+    });
 
 </script>

@@ -32,10 +32,16 @@ class HomeController extends Controller
 
     public function show($username){
         $user = User::all()->where('name', $username)->first();
-        $works = Work::all();
-        $characters = Character::all();
-        $posts = Post::orderBy('id', 'DESC')->where('user_id', $user->id)->with('characters', 'works')->get();
+        if ($user->type === '1'){
+            $works = Work::all();
+            $characters = Character::all();
+            $posts = Post::orderBy('id', 'DESC')->where('user_id', $user->id)->with('characters', 'works')->get();
 
-        return view('home', compact('works', 'characters', 'posts', 'user'));
+            return view('home', compact('works', 'characters', 'posts', 'user'));
+        }else{
+            return redirect()->back();
+        }
+
+
     }
 }

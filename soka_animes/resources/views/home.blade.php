@@ -10,17 +10,19 @@
                         <input type="checkbox" class="btn-check" id="follow" autocomplete="off" @if($user->followers()->exists(Auth::user()->id)) checked @endif >
                         <label id="follow" class="btn btn-md btn-rounded btn-outline-light m-t-10 fw-bold following" for="follow">@if($user->followers()->exists(Auth::user()->id)) SEGUINDO @else SEGUIR @endif</label>
                     @endif
-                    <div class="row text-center m-t-20">
-                        <div class="col-lg-4 col-md-4 m-t-20">
-                            <h3 class="m-b-0">{{count($posts)}}</h3><small>Publicacoes</small>
+                    @if($user->type === '1')
+                        <div class="row text-center m-t-20">
+                            <div class="col-lg-4 col-md-4 m-t-20">
+                                <h3 class="m-b-0">{{count($posts)}}</h3><small>Publicacoes</small>
+                            </div>
+                            <div class="col-lg-4 col-md-4 m-t-20">
+                                <h3 class="m-b-0 ">{{$user->followers()->count()}}</h3><small>Seguidores</small>
+                            </div>
+                            <div class="col-lg-4 col-md-4 m-t-20">
+                                <h3 class="m-b-0">{{$user->followings()->count()}}</h3><small>Seguindo</small>
+                            </div>
                         </div>
-                        <div class="col-lg-4 col-md-4 m-t-20">
-                            <h3 class="m-b-0 ">{{$user->followers()->count()}}</h3><small>Seguidores</small>
-                        </div>
-                        <div class="col-lg-4 col-md-4 m-t-20">
-                            <h3 class="m-b-0">{{$user->followings()->count()}}</h3><small>Seguindo</small>
-                        </div>
-                    </div>
+                    @endif
                 </div>
             </div>
         <div>

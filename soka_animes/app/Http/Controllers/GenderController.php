@@ -56,7 +56,7 @@ class GenderController extends Controller
 
         $gender = Gender::create($validated);
         $genderBtn = '<input type="checkbox" class="btn-check" name="gender[]" id="gender'.$gender->id.'" autocomplete="off" value="'.$gender->id.'">
-              <label class="btn btn-outline-primary label-check fw-bold mx-1 mt-2 d-flex align-items-center fs-5 justify-content-center" for="gender'.$gender->id.'"><b>'.$gender->gender.'</b></label>';;
+              <label class="btn btn-outline-gender label-check fw-bold mx-1 mt-2 d-flex align-items-center fs-5 justify-content-center" for="gender'.$gender->id.'"><b>'.$gender->gender.'</b></label>';;
 
         return $genderBtn;
     }
