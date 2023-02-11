@@ -22,6 +22,26 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('adminsokaanimes')
         ]);
 
-        \App\Models\User::factory(50)->create();
+        $users = \App\Models\User::factory(20)->create();
+        foreach ($users as $user){
+            $posts = \App\Models\Post::factory(10)->create([
+                "user_id" => $user->id,
+            ]);
+
+            foreach ($posts as $post){
+                $comments = \App\Models\Comment::factory(rand(5, 10))->create([
+                    'user_id' => rand(2, $users->count()),
+                    'post_id' => $post->id,
+                ]);
+
+                $likes = \App\Models\PostLike::factory(rand(1, 10))->create([
+                   'user_id' => rand(2, $users->count()),
+                   'post_id' => $post->id,
+                ]);
+            }
+        }
+
+
     }
 }
+

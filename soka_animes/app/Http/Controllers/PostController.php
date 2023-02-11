@@ -30,7 +30,7 @@ class PostController extends Controller
             }
         }
 
-        return redirect()->route('home')->with('success', 'Sua publicação foi enviada');
+        return redirect()->back()->with('success', 'Sua publicação foi enviada');
     }
 
     public function show(int $id){

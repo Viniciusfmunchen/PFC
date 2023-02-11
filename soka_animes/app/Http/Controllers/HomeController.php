@@ -22,26 +22,27 @@ class HomeController extends Controller
     }
 
     public function index(){
-        $user = auth()->user();
-        $works = Work::all();
-        $characters = Character::all();
-        $posts = Post::orderBy('id', 'DESC')->where('user_id', $user->id)->with('characters', 'works')->get();
+        $followingIds = Auth::user()->followings()->pluck('id');
 
-        return view('home', compact('works', 'characters', 'posts', 'user'));
-    }
+        $posts = Post::whereIn('user_id', $followingIds)
+            ->withCount('likes')
+            ->orderByDesc('created_at')
+            ->orderByDesc('likes_count')
+            ->take(10)
+            ->get();
 
-    public function show($username){
-        $user = User::all()->where('name', $username)->first();
-        if ($user->type === '1'){
-            $works = Work::all();
-            $characters = Character::all();
-            $posts = Post::orderBy('id', 'DESC')->where('user_id', $user->id)->with('characters', 'works')->get();
+        $postsWithMostFollowers = User::withCount('followers')
+            ->orderByDesc('followers_count')
+            ->take(10)
+            ->get()
+            ->map(function ($user) {
+                return $user->posts()->orderByDesc('created_at')->get();
+            })
+            ->flatten();
 
-            return view('home', compact('works', 'characters', 'posts', 'user'));
-        }else{
-            return redirect()->back();
-        }
+        $posts = $posts->concat($postsWithMostFollowers)
+            ->sortByDesc('created_at');
 
-
+        return view('home.home', compact('posts'));
     }
 }

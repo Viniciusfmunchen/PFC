@@ -12,15 +12,10 @@ use Ramsey\Uuid\Type\Integer;
  */
 class UserFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition()
     {
         return [
-            'name' => fake()->name(),
+            'name' => fake()->unique()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => Hash::make('sokaanimes'),
@@ -29,11 +24,7 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
         ];
     }
-    /**
-     * Indicate that the model's email address should be unverified.
-     *
-     * @return static
-     */
+
     public function unverified()
     {
         return $this->state(fn (array $attributes) => [

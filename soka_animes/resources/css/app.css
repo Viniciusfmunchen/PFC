@@ -74,19 +74,20 @@ button.btn-comment:focus{
     box-shadow: none;
 }
 
-a.btn-like{
+button.btn-like{
     box-shadow: none;
     border: none;
     color: rgba(255, 255, 255, 0.5);;
+    background-color: rgba(0, 0, 0, 0);
     text-decoration: none;
     transition: 0.5s;
 }
-a.btn-like:hover{
+button.btn-like:hover{
     color: indianred;
     background: rgb(205,95,95);
     background: radial-gradient(circle, rgba(205,95,95,0.3533788515406162) 0%, rgba(223,63,63,0) 100%);
 }
-a.btn-like:focus{
+button.btn-like:focus{
     outline: none;
     box-shadow: none;
 }
@@ -236,4 +237,19 @@ label.following:hover{
     color: red;
 }
 
+.wish{
+    color:#35b69f;
+}
+
+
+.user-feed{
+    font-size: 14px;
+    margin-top: 12px;
+}
+
+@media(max-width: 768px){
+    .side{
+        display: none;
+    }
+}
 

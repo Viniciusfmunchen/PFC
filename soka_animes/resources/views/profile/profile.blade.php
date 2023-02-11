@@ -1,5 +1,5 @@
 <x-app title="Perfil">
-        <div class="border-bottom border-secondary pb-3 bg-dark">
+        <div class="border border-secondary pb-3 bg-dark">
             <img class="card-img-top" src="{{'/img/profile-covers/' . $user->profile_cover}}">
                 <div class="card-body little-profile text-center">
                     <div class="pro-img"><img src="{{'/img/profile-images/' . $user->profile_image}}"></div>

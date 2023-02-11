@@ -34,34 +34,34 @@ class SearchController extends Controller
 
         if ($works->count() > 0) {
             foreach ($works as $work) {
-                $response .= '<li class="nav-item p-3 border-bottom border-info">
-                    <div class="row">
-                        <div class="col-2" style="height: 100%">
-                            <img class="img-fluid rounded-1" src="'.$work->image.'" alt="'. $work->name.'">
-                        </div>
-                        <div class="col-10 d-flex align-items-center">
-                            <span class="fw-bold">'.$work->name.'</span>
-                        </div>
-                    </div>
-                </li>';
+                $response .= '<a href="#" class="d-flex flex-row p-3 border-bottom border-secondary text-decoration-none text-light">
+                                        <img src="'.$work->image.'" alt="'.$work->name.'" width="60" height="80" class="rounded-3 mr-3">
+                                        <div class="w-100 ms-2">
+                                            <div class="d-flex justify-content-start align-items-center">
+                                                <div class="d-block">
+                                                    <span class="fs-5 mr-2"><b>'.$work->name.'</b></span>
+                                                    <small class="mx-2">'.($work->type === 0 ? "(anime)" : "(manga)").'</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </a>';
             }
         }
 
         $characters = Character::where('name', 'LIKE', '%'.$request->search.'%')->get();
         if ($characters->count() > 0) {
             foreach ($characters as $character) {
-                $response .= '<a class="text-decoration-none text-light" href="'.route('characters.show', $character->id).'">
-                    <li class="nav-item p-3 border-bottom border-info">
-                        <div class="row">
-                            <div class="col-2">
-                                <img class="img-fluid rounded-1" src="'.$character->image.'" alt="'.$character->name.'">
+                $response .= '  <a href="'.route('characters.show', $character->id).'" class="d-flex flex-row p-3 border-bottom border-secondary text-decoration-none text-light">
+                            <img src="'.$character->image.'" alt="'.$character->name.'" width="60" height="80" class="rounded-3 mr-3">
+                            <div class="w-100 ms-2">
+                                <div class="d-flex justify-content-start align-items-center">
+                                    <div class="d-block">
+                                        <span class="fs-5 mr-2"><b>'.$character->name.'</b></span>
+                                        <small class="mx-2" >(personagem)</small>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-10 d-flex align-items-center">
-                                <span class="fw-bold">'.$character->name.'</span>
-                            </div>
-                        </div>
-                    </li>
-                </a>';
+                        </a>';
             }
         }
 

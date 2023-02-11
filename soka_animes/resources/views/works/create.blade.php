@@ -1,5 +1,4 @@
 <x-app title="Adicionar Obras">
-    <div class="container text-light">
         <div class="bg-dark pt-3 px-3 position-sticky sticky-top">
             <h4><b>ADICIONAR OBRA:</b></h4>
             <hr class="text-primary">
@@ -17,16 +16,16 @@
                 <textarea class="form-control input-dark" name="synopsis" id="synopsis" cols="30" rows="10" required>
                 </textarea>
             </div>
+            <div class="form-group mt-3">
+                <label for="release_date">Data de Lancamento:</label>
+                <input class="form-control input-dark" type="date" name="release_date" id="release_date" required>
+            </div>
             <div class="form-row gap-2 d-flex justify-content-between mt-3">
-                <div class="form-group col">
-                    <label for="release_date">Data de Lancamento:</label>
-                    <input class="form-control input-dark" type="date" name="release_date" id="release_date" required>
-                </div>
-                <div class="form-group col">
+                <div class="form-group col col>
                     <label for="chapters">Capitulos/Episodios:</label>
                     <input class="form-control input-dark" type="number" name="chapters" id="chapters" required>
                 </div>
-                <div class="form-group col">
+                <div class="form-group col col">
                     <label for="volumes">Volumes/Temporadas:</label>
                     <input class="form-control input-dark" type="number" name="volumes" id="volumes" required>
                 </div>
@@ -165,7 +164,6 @@
                 </div>
             </div>
         </div>
-    </div>
 </x-app>
 <script>
     $('#saveGender').on('click', function(){

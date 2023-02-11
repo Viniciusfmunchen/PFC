@@ -37,8 +37,8 @@
     <div class="container">
         <div class="row">
             <nav class="col-3 side navbar-expand-lg navbar-dark p-4 bg-dark sticky-top border-end border-secondary">
-                <a href="#" class="navbar-brand">
-                    <h2 class="text-uppercase fw-bold">🐵 Soka Animes</h2>
+                <a href="{{route('home')}}" class="navbar-brand">
+                    <img class="img-fluid" src="{{'/img/site-images/logo-soka.png'}}">
                 </a>
                 <div class="navbar-toggler fixed-bottom bg-dark">
                     <span class="fa-solid fa-home me-2"></span>
@@ -49,11 +49,11 @@
                     <ul class="navbar-nav text-light d-block">
                         @auth
                             <li class="nav-item rounded-pill my-3">
-                                <a href="{{ route('welcome') }}" class="nav-link"><span
+                                <a href="{{ route('home') }}" class="nav-link"><span
                                         class="fa-solid fa-home me-2"></span> Pagina Inicial</a>
                             </li>
                             <li class="nav-item rounded-pill my-3">
-                                <a href="{{ route('home') }}" class="nav-link">@if(Auth::user()->isAdmin())<span class="fa-solid fa-user-plus me-2">@else<span class="fa-solid fa-user me-2">@endif</span>
+                                <a href="{{ route('profile') }}" class="nav-link">@if(Auth::user()->isAdmin())<span class="fa-solid fa-user-plus me-2">@else<span class="fa-solid fa-user me-2">@endif</span>
                                     Perfil</a>
                             </li>
                         @endauth
@@ -118,11 +118,11 @@
                     </div>
                 </div>
             </nav>
-            <div class="col-6 bg-dark" style="padding: 0">
+            <div class="col-lg-6 col-sm-12 bg-dark" style="padding: 0">
                 {{ $slot }}
             </div>
-            <div class="col-3 bg-dark side sticky-top border-start border-secondary">
-                <div class="search-box input-group rounded-pill px-3 py-1 mt-2">
+            <div class="col-3 bg-dark side border-start border-secondary position-sticky sticky-top">
+                <div class="search-box input-group rounded-pill px-3 py-1 mt-2 w-100">
                     <span class="input-group-append d-flex align-items-center">
                         <button typeof="submit" class="btn search-box p-2" type="button">
                             <i class="fa fa-search"></i>
@@ -131,29 +131,47 @@
                     <input class="input-dark-search form-control" type="text" id="search" name="search"
                         autocomplete="off">
                 </div>
-                <ul class="show-search navbar-nav rounded-3 mt-2">
-                    <div class="d-none" id="searched-show">
-                        <li class="nav-item p-3 border-bottom border-info">
-                            <div class="row">
+                <div class="position-relative">
+                    <div id="searched-show" class="collapse rounded-3 mt-2 bg-info position-absolute" style="width: 100%">
+                        <div class="border-bottom border-secondary p-3">
+                            <div class="row gap-1">
                                 <div class="col-2">
-                                    <div class="image-post bg-info rounded-circle d-flex justify-content-center align-items-center" style="width: 45px; height: 45px">
+                                    <div
+                                        class="bg-secondary rounded-circle d-flex justify-content-center align-items-center"
+                                        style="width: 45px; height: 45px">
                                         <i class="fa-solid fa-search"></i>
                                     </div>
                                 </div>
-                                <div class="col-10 d-flex align-items-center gx-5">
+                                <div class="col-9 d-flex align-items-center gx-5">
                                     <span class="fw-bold" id="searched"></span>
                                 </div>
                             </div>
-                        </li>
-                    </div>
-                    <div id="loading" class="progress d-none">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
-                            aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
-                    </div>
-                    <div id="search-results">
+                        </div>
+                        <div id="loading" class="progress d-none">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                                 aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                        </div>
+                        <div id="search-results" style="width:100%; max-height: 300px; overflow: auto">
 
+                        </div>
                     </div>
-                </ul>
+                </div>
+                <div class="bg-anime mt-3 rounded-3" style="height: 200px">
+                    <h5>Top Animes</h5>
+                </div>
+                <div class="bg-anime mt-3 rounded-3" style="height: 200px">
+                    <h5>Top Mangas</h5>
+                </div>
+                <div class="bg-anime mt-3 rounded-3" style="height: 200px">
+                    <h5>Top Personagens</h5>
+                </div>
+                @auth
+                    @if(!Auth::user()->isAdmin())
+                        <div class="bg-anime mt-3 rounded-3" style="height: 200px">
+                            <h5>Sugestoes seguir</h5>
+                        </div>
+                    @endif
+                @endauth
             </div>
         </div>
     </div>
@@ -168,12 +186,6 @@
             $('.alert').delay(3000).fadeOut();
         });
 
-        $(document).ready(function(){
-            $('#btn-focus-search-tags').on('click', function (){
-                $('#input-search-tags').focus();
-            });
-        });
-
         var $searchInput = $('#search');
         var timer;
 
@@ -182,8 +194,9 @@
             clearTimeout(timer);
             var $search = $.trim($(this).val());
             if ($search.length > 0) {
+                $('#searched-show').collapse("show");
                 $('#searched').html($search);
-                $('#searched-show, #search-results').toggleClass('d-none', false);
+                $('#search-results').toggleClass('d-none', false);
                 timer = setTimeout(function() {
                     $.ajax({
                         type: 'GET',
@@ -201,7 +214,8 @@
                     });
                 }, 300);
             } else {
-                $('#searched-show, #search-results').toggleClass('d-none', true);
+                $('#searched-show').collapse("hide");
+                $(' #search-results').toggleClass('d-none', true);
                 $('#loading').addClass('d-none');
             }
         });
@@ -309,6 +323,41 @@
             $(this).parent().remove();
         });
 
+        $('.btn-like').on('click', function (){
+
+        });
+
+        $('.btn-like').on('click', function(){
+            var postId = $(this).data('post-id');
+            console.log(postId);
+            var url = "{{ route('post.like', '')}}/" + postId;
+            console.log(postId);
+            $.ajax({
+                type: 'POST',
+                url: url,
+                datatype: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    console.log(response.liked, response.likeCount)
+                    $('#like-count' + postId).html(response.likeCount);
+
+                    if(response.liked){
+                        $('#like-heart' + postId).removeClass('fa-regular', 'text-danger');
+                        $('#like-heart' + postId).addClass('fa-solid', 'text-danger');
+                    }else{
+                        $('#like-heart' + postId).removeClass('fa-solid', 'text-danger');
+                        $('#like-heart' + postId).addClass('fa-regular', 'text-danger');
+                    }
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    console.log("Error: " + errorThrown);
+                    console.log("Status: " + textStatus);
+                    console.dir(xhr);
+                }
+            });
+        });
     </script>
 </body>
 </html>

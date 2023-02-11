@@ -29,4 +29,14 @@ class Post extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+    public function likes(){
+        return $this->hasMany(PostLike::class);
+    }
+
+
+    public function isLikedBy(User $user)
+    {
+        return $this->likes()->where('user_id', $user->id)->exists();
+    }
 }

@@ -1,26 +1,29 @@
-<div class="border-bottom border-secondary px-3 pt-3 text-light">
-        <div class="row">
-            <div class="little-profile col-1">
-                <div class="pro-img-icon-no-line"><img src="{{'/img/profile-images/' . $user->profile_image}}" alt="user"></div>
+<div class="d-flex flex-row p-3 border-bottom border-info">
+    <img src="{{'/img/profile-images/' . $user->profile_image}}" width="40" height="40" class="rounded-circle mr-3">
+    <div class="w-100 ms-2">
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex flex-row align-items-center">
+                <span class="mr-2"><b>{{$user->name}}</b></span>
+                <small class="mx-2" >{{$post->created_at}}</small>
             </div>
-            <div class="col-10">
-                <span class="fw-bold"> {{$user->name}} </span>- {{$post->created_at}}
-                <a href="" class="text-decoration-none text-light"><p class="mb-2">{{$post->content}}</p></a>
-                <button class="btn-comment border border-dark me-3" data-bs-toggle="modal" data-bs-target="#modalComment{{$post->id}}" style="padding: 0px"><i class="fa-regular fa-comment me-1"></i>1.200</button>
-                <a href="#" class="btn-like border border-dark" style="padding: 0px" data-bs-toggle="dropdown" role="button" aria-expanded="false" id="showMore">
-                    <i class="fa-regular fa-heart rounded-circle me-1"></i>15.000
-                </a>
-            </div>
-            <div class="col-1 dropstart">
-                <a href="" class="text-decoration-none text-light" id="showMore" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-ellipsis"></i></a>
-                <ul class="dropdown-menu bg-dark">
-                    <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalTags{{$post->id}}"><i class="fa-solid fa-tags me-2"></i>Tags</button></li>
-                    @if($post->user_id == Auth::user()->id)
+            @if($post->user_id == Auth::user()->id)
+                <div class="col-1 dropstart">
+                    <a href="" class="text-decoration-none text-light" id="showMore" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-ellipsis"></i></a>
+                    <ul class="dropdown-menu bg-secondary">
                         <li><button type="button" class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#modalDelete{{$post->id}}"><i class="fa-solid fa-trash me-2"></i>Excluir</button></li>
-                    @endif
-                </ul>
-            </div>
+                    </ul>
+                </div>
+            @endif
         </div>
+        <p class="text-justify comment-text mb-0">{{$post->content}}</p>
+        <div class="d-flex flex-row user-feed">
+            <button class="btn-comment border border-dark me-3" data-bs-toggle="modal" data-bs-target="#modalComment{{$post->id}}" style="padding: 0px"><i class="fa-regular fa-comment me-1"></i>{{$post->comments()->count()}}</button>
+            <button type="button" class="btn-like border border-dark me-3" data-post-id="{{$post->id}}" style="padding: 0px"><span class="@if (Auth::user()->postLikes->where('post_id', $post->id)->count() > 0) fa-solid @else fa-regular @endif fa-heart me-1" id="like-heart{{$post->id}}"></span ><span id="like-count{{$post->id}}">{{$post->likes()->count()}}</span></button>
+            @if($post->works()->count() > 0 || $post->characters()->count() > 0)
+                <button class="btn-comment border border-dark me-3" data-bs-toggle="modal" data-bs-target="#modalTags{{$post->id}}"><i class="fa-solid fa-tags me-2"></i>Tags</button>
+            @endif
+        </div>
+    </div>
 </div>
 <div class="modal fade" id="modalComment{{$post->id}}" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -66,7 +69,7 @@
         <div class="modal-content bg-dark text-light d-block rounded-3">
             <div class="modal-body">
                 <h5 class="fw-bold">Excluir publicação?</h5>
-                <p class="text-secondary">Essa ação não poderá ser desfeita, a publicação, com seus comentarios, será removida, do seu perfil, da timeline, de todas as contas que seguem você e dos resultados de busca.</p>
+                <p class="text-white-50">Essa ação não poderá ser desfeita, a publicação, com seus comentarios, será removida, do seu perfil, da timeline, de todas as contas que seguem você e dos resultados de busca.</p>
                 <form action="{{route('posts.destroy', $post->id)}}" method="post">
                     @csrf
                     @method('DELETE')
