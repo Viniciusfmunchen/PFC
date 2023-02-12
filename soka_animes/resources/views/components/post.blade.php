@@ -1,10 +1,10 @@
 <div class="d-flex flex-row p-3 border-bottom border-info">
-    <img src="{{'/img/profile-images/' . $user->profile_image}}" width="40" height="40" class="rounded-circle mr-3">
+    <a href="{{route('profile.user', $user->name)}}"><img src="{{'/img/profile-images/' . $user->profile_image}}" width="40" height="40" class="rounded-circle mr-3"></a>
     <div class="w-100 ms-2">
         <div class="d-flex justify-content-between align-items-center">
             <div class="d-flex flex-row align-items-center">
-                <span class="mr-2"><b>{{$user->name}}</b></span>
-                <small class="mx-2" >{{$post->created_at}}</small>
+                <a class="text-decoration-none text-light" href="{{route('profile.user', $user->name)}}"><span class="mr-2"><b>{{$user->name}}</b></span></a>
+                <small class="mx-2" >{{$post->created_at->diffForHumans()}}</small>
             </div>
             @if($post->user_id == Auth::user()->id)
                 <div class="col-1 dropstart">
@@ -38,7 +38,7 @@
                         </div>
                     </div>
                     <div class="col-11">
-                        <span class="fw-bold"> {{$user->name}}F </span>- {{$post->created_at}}
+                        <span class="fw-bold"> {{$user->name}} </span>- {{$post->created_at}}
                         <p>{{$post->content}}</p>
                     </div>
                 </div>

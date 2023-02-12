@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,7 +17,9 @@ use Illuminate\Support\Facades\Route;
         return view('search');
     });
 
-    Route::get('/search', [\App\Http\Controllers\SearchController::class, 'search'])->name('search');
+    Route::get('api/search', [\App\Http\Controllers\SearchController::class, 'search'])->name('api.search');
+    Route::get('/search', [\App\Http\Controllers\SearchController::class, 'index'])->name('search.index');
+    Route::get('/search/{search}', [\App\Http\Controllers\SearchController::class, 'expand'])->name('search.expand');
 
     Route::middleware('auth')->group(function(){
         Route::resource('genders', \App\Http\Controllers\GenderController::class);
@@ -43,7 +46,7 @@ use Illuminate\Support\Facades\Route;
         Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
     });
 
-    Auth::routes(['search' => false]);
+    Auth::routes(['api.search' => false, 'search.index' => false, 'search.expand' => false]);
 
 
 

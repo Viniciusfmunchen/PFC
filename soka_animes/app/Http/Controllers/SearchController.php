@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Character;
 use App\Models\Work;
+use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class SearchController extends Controller
@@ -96,4 +98,46 @@ class SearchController extends Controller
         }
         return $response;
     }
+
+    public function index(){
+        $works = Work::all();
+        $characters = Character::all();
+        $posts = Post::with('user')->orderByDesc('created_at')->get();
+        $users = User::all();
+        
+        return view('search', compact('works', 'characters', 'posts', 'users'));
+    }
+
+    public function expand($search){
+        if($search){
+            $works = Work::where('name', 'LIKE', "%$search%")
+                        ->orWhereHas('genders', function($q) use ($search){
+                            $q->where('gender', 'LIKE', "%$search%");
+                        })
+                        ->orWhereHas('characters', function($q) use ($search){
+                            $q->where('name', 'LIKE', "%$search%");
+                        })->get();
+                $characters = Character::where('name', 'LIKE', "%$search%")
+                            ->orWhere('description', 'LIKE', "%$search%")
+                            ->orWhereHas('works', function($q) use ($search){
+                                $q->where('name', 'LIKE', "%$search%");
+                            })->get();
+                $users = User::where('name', 'LIKE', "%$search%")->withCount('followers')->orderBy('followers_count', 'desc')->get();
+                $posts = Post::with('user')->where('content', 'LIKE', "%$search%")
+                        ->orWhereHas('user', function($q) use ($search){
+                            $q->where('name', 'LIKE', "%$search%");
+                        })
+                        ->orWhereHas('characters', function($q) use ($search){
+                            $q->where('name', 'LIKE', "%$search%");
+                        })
+                        ->orWhereHas('works', function($q) use ($search){
+                            $q->where('name', 'LIKE', "%$search%");
+                        })
+                        ->orderBy('created_at', 'desc')->get();
+
+                return view('search', compact('works', 'characters', 'posts', 'users'));
+        }else{
+            return;
+        }
+}
 }

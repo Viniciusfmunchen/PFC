@@ -22,26 +22,36 @@ class HomeController extends Controller
     }
 
     public function index(){
-        $followingIds = Auth::user()->followings()->pluck('id');
+        $user = Auth::user(); // pega o usuário logado
 
-        $posts = Post::whereIn('user_id', $followingIds)
+        $following = $user->followings->pluck('id'); // pega os ids dos usuários que o usuário logado está seguindo
+        $notFollowed = User::whereNotIn('id', $following)->pluck('id'); // pega os ids dos usuários não seguidos pelo usuário logado
+
+        // Busca os 10 posts com mais likes de usuários não seguidos pelo usuário logado
+        $mostLiked = Post::whereIn('user_id', $notFollowed->concat($following))
+            ->where('user_id', '!=', $user->id)
             ->withCount('likes')
-            ->orderByDesc('created_at')
-            ->orderByDesc('likes_count')
+            ->orderBy('likes_count', 'desc')
             ->take(10)
             ->get();
 
-        $postsWithMostFollowers = User::withCount('followers')
-            ->orderByDesc('followers_count')
+        // Busca os 10 usuários com mais seguidores e não seguidos pelo usuário logado
+        $mostFollowed = User::whereIn('id', $notFollowed)
+            ->withCount('followers')
+            ->orderBy('followers_count', 'desc')
             ->take(10)
-            ->get()
-            ->map(function ($user) {
-                return $user->posts()->orderByDesc('created_at')->get();
-            })
-            ->flatten();
+            ->get();
 
-        $posts = $posts->concat($postsWithMostFollowers)
-            ->sortByDesc('created_at');
+        $mostFollowedPosts = collect();
+        foreach ($mostFollowed as $followedUser) {
+            $posts = $followedUser->posts()
+                ->where('user_id', '!=', $user->id)
+                ->take(10)
+                ->get();
+            $mostFollowedPosts = $mostFollowedPosts->concat($posts);
+        }
+
+        $posts = $mostLiked->concat($mostFollowedPosts)->sortByDesc('created_at')->unique('id');
 
         return view('home.home', compact('posts'));
     }

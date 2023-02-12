@@ -87,7 +87,7 @@ class WorkController extends Controller
                 $work->characters()->attach($character);
             }
         }
-        return redirect()->route('works.index')->with('sucesso', 'Obra editado com sucesso');
+        return redirect()->route('profile')->with('sucesso', 'Obra editado com sucesso');
     }
 
     public function destroy(Work $work){

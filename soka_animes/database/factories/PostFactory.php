@@ -14,6 +14,7 @@ class PostFactory extends Factory
         return [
             'user_id' => 1,
             'content' => fake()->text(1000),
+            'created_at' => fake()->dateTimeBetween('-20 days', now()),
         ];
     }
 

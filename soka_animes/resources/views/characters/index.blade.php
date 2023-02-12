@@ -2,7 +2,7 @@
     <div class="container">
         <div>
             <h1>Listagem de Personagens</h1>
-            <a class="btn btn-primary" href="{{ route('welcome') }}">Welcome</a>
+            <a class="btn btn-primary" href="#">Welcome</a>
             <a class="btn btn-primary" href="{{route('characters.create')}}">Adicionar Personagem</a>
         </div>
         <div class="table-responsive">
@@ -34,7 +34,7 @@
                         </tr>
                     @endforeach
                 </tbody>
-            </table>
+            </table>        
         </div>
 
     </div>

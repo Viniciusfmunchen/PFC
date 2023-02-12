@@ -19,21 +19,22 @@ class ProfileController extends Controller
         $user = auth()->user();
         $works = Work::all();
         $characters = Character::all();
-        $posts = Post::orderBy('id', 'DESC')->where('user_id', $user->id)->with('characters', 'works')->get();
+        $posts = Post::orderBy('created_at', 'DESC')->where('user_id', $user->id)->with('characters', 'works')->get();
 
         return view('profile.profile', compact('works', 'characters', 'posts', 'user'));
     }
 
     public function show($username){
         $user = User::all()->where('name', $username)->first();
-        if ($user->type === '1'){
+        if (!$user->isAdmin()){
             $works = Work::all();
             $characters = Character::all();
-            $posts = Post::orderBy('id', 'DESC')->where('user_id', $user->id)->with('characters', 'works')->get();
+            $posts = Post::where('user_id', $user->id)->with('characters', 'works')->get();
+            $posts = $posts->sortByDesc('created_at');
 
             return view('profile.profile', compact('works', 'characters', 'posts', 'user'));
         }else{
-            return redirect()->back();
+            return back();
         }
 
     }

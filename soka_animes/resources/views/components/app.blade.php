@@ -49,16 +49,16 @@
                     <ul class="navbar-nav text-light d-block">
                         @auth
                             <li class="nav-item rounded-pill my-3">
-                                <a href="{{ route('home') }}" class="nav-link"><span
-                                        class="fa-solid fa-home me-2"></span> Pagina Inicial</a>
+                                <a href="{{ route('home') }}" class="nav-link @if(Route::is('home')) text-white @endif"><span
+                                        class="fa-solid fa-home me-2 "></span> Pagina Inicial</a>
                             </li>
                             <li class="nav-item rounded-pill my-3">
-                                <a href="{{ route('profile') }}" class="nav-link">@if(Auth::user()->isAdmin())<span class="fa-solid fa-user-plus me-2">@else<span class="fa-solid fa-user me-2">@endif</span>
+                                <a href="{{ route('profile') }}" class="nav-link @if(Route::is('profile')) text-white @endif">@if(Auth::user()->isAdmin())<span class="fa-solid fa-user-plus me-2">@else<span class="fa-solid fa-user me-2">@endif</span>
                                     Perfil</a>
                             </li>
                         @endauth
                         <li class="nav-item rounded-pill my-3">
-                            <a href="{{ route('works.index') }}" class="nav-link"><span class="fa-solid fa-search me-2"></span> Pesquisar</a>
+                            <a href="{{ route('search.index') }}" class="nav-link"><span class="fa-solid fa-search me-2"></span> Pesquisar</a>
                         </li>
                     </ul>
                 </div>
@@ -122,45 +122,44 @@
                 {{ $slot }}
             </div>
             <div class="col-3 bg-dark side border-start border-secondary position-sticky sticky-top">
-                <div class="search-box input-group rounded-pill px-3 py-1 mt-2 w-100">
-                    <span class="input-group-append d-flex align-items-center">
-                        <button typeof="submit" class="btn search-box p-2" type="button">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </span>
-                    <input class="input-dark-search form-control" type="text" id="search" name="search"
-                        autocomplete="off">
-                </div>
-                <div class="position-relative">
-                    <div id="searched-show" class="collapse rounded-3 mt-2 bg-info position-absolute" style="width: 100%">
-                        <div class="border-bottom border-secondary p-3">
-                            <div class="row gap-1">
-                                <div class="col-2">
-                                    <div
-                                        class="bg-secondary rounded-circle d-flex justify-content-center align-items-center"
-                                        style="width: 45px; height: 45px">
-                                        <i class="fa-solid fa-search"></i>
+                @if(!Route::is('search.index', 'search.expand'))
+                    <div class="search-box input-group rounded-pill px-3 py-1 mt-2 w-100">
+                        <span class="input-group-append d-flex align-items-center">
+                            <button typeof="submit" class="btn search-box p-2" type="button">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
+                        <input class="input-dark-search form-control" type="text" id="search" name="search"
+                            autocomplete="off">
+                    </div>
+                    <div class="position-relative">
+                        <div id="searched-show" class="collapse rounded-3 mt-2 bg-info position-absolute" style="width: 100%">
+                            <a id="expand-search" class="text-decoration-none text-light" href=""><div class="border-bottom border-secondary p-3">
+                                <div class="row gap-1">
+                                    <div class="col-2">
+                                        <div
+                                            class="bg-secondary rounded-circle d-flex justify-content-center align-items-center"
+                                            style="width: 45px; height: 45px">
+                                            <i class="fa-solid fa-search"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-9 d-flex align-items-center gx-5">
+                                        <span class="fw-bold" id="searched"></span>
                                     </div>
                                 </div>
-                                <div class="col-9 d-flex align-items-center gx-5">
-                                    <span class="fw-bold" id="searched"></span>
-                                </div>
+                            </div></a>
+                            <div id="loading" class="progress d-none">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                                    aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                            </div>
+                            <div id="search-results" style="width:100%; max-height: 300px; overflow: auto">
+
                             </div>
                         </div>
-                        <div id="loading" class="progress d-none">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
-                                 aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
-                        </div>
-                        <div id="search-results" style="width:100%; max-height: 300px; overflow: auto">
-
-                        </div>
                     </div>
-                </div>
+                @endif
                 <div class="bg-anime mt-3 rounded-3" style="height: 200px">
-                    <h5>Top Animes</h5>
-                </div>
-                <div class="bg-anime mt-3 rounded-3" style="height: 200px">
-                    <h5>Top Mangas</h5>
+                    <h5>Top Obras</h5>
                 </div>
                 <div class="bg-anime mt-3 rounded-3" style="height: 200px">
                     <h5>Top Personagens</h5>
@@ -188,21 +187,22 @@
 
         var $searchInput = $('#search');
         var timer;
-
         $searchInput.on('input', function() {
             $('#search-results').html('');
             clearTimeout(timer);
-            var $search = $.trim($(this).val());
-            if ($search.length > 0) {
+            search = $.trim($(this).val());
+            if (search.length > 0) {
                 $('#searched-show').collapse("show");
-                $('#searched').html($search);
+                $('#searched').html(search);
+                var urlSearch = "{{ route('search.expand', '')}}/" + search;
+                $('#expand-search').attr('href', urlSearch);
                 $('#search-results').toggleClass('d-none', false);
                 timer = setTimeout(function() {
                     $.ajax({
                         type: 'GET',
-                        url: '{{ route('search') }}',
+                        url: '{{ route('api.search') }}',
                         data: {
-                            'search': $search
+                            'search': search
                         },
                         beforeSend: function() {
                             $('#loading').toggleClass('d-none', false);

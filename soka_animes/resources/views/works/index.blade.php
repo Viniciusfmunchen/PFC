@@ -1,7 +1,7 @@
 <x-app title="Listagem de Obras">
     <div class="container">
         <div class="mt-3">
-            <a class="btn btn-primary" href="{{ route('welcome') }}">Welcome</a>
+            <a class="btn btn-primary" href="#">Welcome</a>
             <a class="btn btn-primary" href="{{route('works.create')}}">Adicionar Obra</a>
         </div>
         <div class="mt-3">

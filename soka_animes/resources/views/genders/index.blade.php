@@ -1,6 +1,6 @@
 <x-app title="Genrenciar Generos">
     <div class="container">
-        <a class="btn btn-primary" href="{{ route('welcome') }}">Welcome</a>
+        <a class="btn btn-primary" href="#">Welcome</a>
         <a class="btn btn-primary" href="{{ route('genders.create')}}">Adicionar Genero</a>
         <table class="table-dark">
             <thead>
