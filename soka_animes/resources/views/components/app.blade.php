@@ -135,18 +135,7 @@
                     <div class="position-relative">
                         <div id="searched-show" class="collapse rounded-3 mt-2 bg-info position-absolute" style="width: 100%">
                             <a id="expand-search" class="text-decoration-none text-light" href=""><div class="border-bottom border-secondary p-3">
-                                <div class="row gap-1">
-                                    <div class="col-2">
-                                        <div
-                                            class="bg-secondary rounded-circle d-flex justify-content-center align-items-center"
-                                            style="width: 45px; height: 45px">
-                                            <i class="fa-solid fa-search"></i>
-                                        </div>
-                                    </div>
-                                    <div class="col-9 d-flex align-items-center gx-5">
-                                        <span class="fw-bold" id="searched"></span>
-                                    </div>
-                                </div>
+                                    <span class="rounded-circle d-flex justify-content-start align-items-center"><i class="fa-solid fa-search p-3 bg-secondary rounded-circle me-2"></i><span class="fw-bold" id="searched"></span></span>
                             </div></a>
                             <div id="loading" class="progress d-none">
                                 <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"

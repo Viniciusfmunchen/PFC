@@ -246,6 +246,15 @@ label.following:hover{
     font-size: 14px;
     margin-top: 12px;
 }
+.pagination .page-item .page-link{
+    background-color:  #302548 !important;
+    border: #443465;
+    color: white;
+}
+.pagination .page-item.active .page-link {
+    background-color: #443465 !important;
+    border-color: #302548 !important;
+}
 
 @media(max-width: 768px){
     .side{

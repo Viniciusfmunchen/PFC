@@ -100,11 +100,11 @@ class SearchController extends Controller
     }
 
     public function index(){
-        $works = Work::all();
-        $characters = Character::all();
-        $posts = Post::with('user')->orderByDesc('created_at')->get();
-        $users = User::all();
-        
+        $works = Work::paginate(12);
+        $characters = Character::paginate(12);
+        $posts = [];
+        $users = [];
+
         return view('search', compact('works', 'characters', 'posts', 'users'));
     }
 
@@ -116,13 +116,13 @@ class SearchController extends Controller
                         })
                         ->orWhereHas('characters', function($q) use ($search){
                             $q->where('name', 'LIKE', "%$search%");
-                        })->get();
+                        })->paginate(12);
                 $characters = Character::where('name', 'LIKE', "%$search%")
                             ->orWhere('description', 'LIKE', "%$search%")
                             ->orWhereHas('works', function($q) use ($search){
                                 $q->where('name', 'LIKE', "%$search%");
-                            })->get();
-                $users = User::where('name', 'LIKE', "%$search%")->withCount('followers')->orderBy('followers_count', 'desc')->get();
+                            })->paginate(12);
+                $users = User::where('name', 'LIKE', "%$search%")->withCount('followers')->orderBy('followers_count', 'desc')->paginate(12);
                 $posts = Post::with('user')->where('content', 'LIKE', "%$search%")
                         ->orWhereHas('user', function($q) use ($search){
                             $q->where('name', 'LIKE', "%$search%");
@@ -133,11 +133,11 @@ class SearchController extends Controller
                         ->orWhereHas('works', function($q) use ($search){
                             $q->where('name', 'LIKE', "%$search%");
                         })
-                        ->orderBy('created_at', 'desc')->get();
+                        ->orderBy('created_at', 'desc')->paginate(12);
 
-                return view('search', compact('works', 'characters', 'posts', 'users'));
+                return view('search', compact('works', 'characters', 'posts', 'users', 'search'));
         }else{
-            return;
+            return back();
         }
-}
+    }
 }

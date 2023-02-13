@@ -23,7 +23,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         \App\Models\User::factory(50)->create();
-
+        $this->call(WorkSeeder::class);
+        $this->call(CharacterSeeder::class);
     }
 }
 
