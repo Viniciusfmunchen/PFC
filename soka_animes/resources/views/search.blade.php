@@ -54,17 +54,18 @@
                 @if($works->count() > 0)
                     <div class="row row-cols-1 row-cols-md-3 g-3 p-3">
                         @foreach ($works as $work)
-                            <div class="col card-group">
-                                <div class="card bg-secondary position-static" data-work-type="{{$work->type}}">
-                                    <img src="{{$work->image}}" class="card-img-top" alt="..." style="max-height: 200px">
-                                    <div class="card-body d-flex justify-content-center align-items-center text-center">
-                                        <h6 class="card-title fw-bold">{{$work->name}}</h6>
-                                    </div>
-                                    <div class="card-footer d-flex justify-content-center">
-                                        <span class="badge text-dark  @if($work->type == 0) bg-anime @else bg-manga @endif"><b>@if($work->type == 0) ANIMÊ @else MANGÁ @endif</b></span>
+                                <div class="col card-group">
+                                    <div class="card bg-secondary position-static" data-work-type="{{$work->type}}">
+                                        <a href="{{route('works.show', $work->id)}}"><img src="{{$work->image}}" class="card-img-top" alt="..." style="max-height: 200px"></a>
+                                        <div class="card-body d-flex justify-content-center align-items-center text-center">
+                                            <h6 class="text-fluid fw-bold">{{$work->name}}</h6>
+                                        </div>
+                                        <div class="card-footer d-flex justify-content-center">
+                                            <span class="badge text-dark  @if($work->type == 0) bg-anime @else bg-manga @endif"><b>@if($work->type == 0) ANIMÊ @else MANGÁ @endif</b></span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+
                         @endforeach
                     </div>
                 @else
@@ -97,10 +98,19 @@
                     <!-- 3nd card -->
                     <div class="tab-pane fade text-white p-3" id="pills-users" role="tabpanel" aria-labelledby="pills-profile-tab">
                         @if($users->count() > 0)
-
-                            <div class="mt-3 border-top border-info p-3">
-                                <span>{{ $characters->links("pagination::bootstrap-5") }}</span>
-                            </div>
+                            @foreach($users as $user)
+                                <div class="d-flex flex-row p-3 border-bottom border-info">
+                                    <a href="{{route('profile.user', $user->name)}}"><img src="{{'/img/profile-images/' . $user->profile_image}}" width="40" height="40" class="rounded-circle mr-3"></a>
+                                    <div class="w-100 ms-2">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="d-flex flex-row align-items-center">
+                                                <a class="text-decoration-none text-light" href="{{route('profile.user', $user->name)}}"><span class="mr-2"><b>{{$user->name}}</b></span></a>
+                                            </div>
+                                        </div>
+                                        <a href="{{route('profile.user', $user->id)}}" class="text-decoration-none text-light"><p class="text-justify comment-text mb-0"><span class="me-1">Seguidores : {{$user->followers()->count()}}</span> · <span class="ms-1">Publicações: {{$user->posts()->count()}}</span></p></a>
+                                    </div>
+                                </div>
+                            @endforeach
                         @else
                             Nao encontramos nenhum usuario
                         @endif

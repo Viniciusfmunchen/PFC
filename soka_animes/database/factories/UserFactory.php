@@ -2,34 +2,38 @@
 
 namespace Database\Factories;
 
-use \App\Models\User;
-use Illuminate\Support\Facades\DB;
+use App\Models\User;
+use App\Models\Post;
+use App\Models\Comment;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
- */
 class UserFactory extends Factory
 {
+    protected $model = User::class;
+
     public function definition()
     {
         return [
-            'name' => fake()->unique()->name(),
-            'email' => fake()->unique()->safeEmail(),
+            'name' => $this->faker->unique()->name(),
+            'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => Hash::make('sokaanimes'),
             'profile_image' => 'default-' .rand(1, 5) . '.jpg',
             'profile_cover' => 'default-cover-' .rand(1, 5) . '.jpg',
-            'remember_token' => Str::random(10),
+            'remember_token' => $this->faker->unique()->randomNumber(),
         ];
     }
 
-    public function unverified()
+    public function configure()
     {
-        return $this->state(fn (array $attributes) => [
-            'email_verified_at' => null,
-        ]);
+        return $this->afterCreating(function (User $user) {
+            if($user->type != 0){
+                $user->posts()->saveMany(Post::factory(20)->make([
+                    'user_id' => $user->id,
+                ]));
+            }
+        });
     }
 }
+

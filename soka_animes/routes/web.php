@@ -46,7 +46,7 @@ use Illuminate\Support\Facades\Route;
         Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
     });
 
-    Auth::routes(['api.search' => false, 'search.index' => false, 'search.expand' => false]);
+    Auth::routes(['api.search' => false, 'search.index' => false, 'search.expand' => false, 'characters' => false]);
 
 
 

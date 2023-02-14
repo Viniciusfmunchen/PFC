@@ -27,6 +27,8 @@ class HomeController extends Controller
         $following = $user->followings->pluck('id'); // pega os ids dos usuários que o usuário logado está seguindo
         $notFollowed = User::whereNotIn('id', $following)->pluck('id'); // pega os ids dos usuários não seguidos pelo usuário logado
 
+        $followings = Post::whereIn('user_id', $following)->get();
+
         // Busca os 10 posts com mais likes de usuários não seguidos pelo usuário logado
         $mostLiked = Post::whereIn('user_id', $notFollowed->concat($following))
             ->where('user_id', '!=', $user->id)
@@ -51,7 +53,7 @@ class HomeController extends Controller
             $mostFollowedPosts = $mostFollowedPosts->concat($posts);
         }
 
-        $posts = $mostLiked->concat($mostFollowedPosts)->sortByDesc('created_at')->unique('id');
+        $posts = $mostLiked->concat($mostFollowedPosts)->concat($followings)->sortByDesc('created_at')->unique('id');
 
         return view('home.home', compact('posts'));
     }

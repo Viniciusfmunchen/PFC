@@ -13,7 +13,7 @@
                     @if($user->type === '1')
                         <div class="row text-center m-t-20">
                             <div class="col-lg-4 col-md-4 m-t-20">
-                                <h3 class="m-b-0">{{count($posts)}}</h3><small>Publicacoes</small>
+                                <h3 class="m-b-0">{{count($posts)}}</h3><small>Publicações</small>
                             </div>
                             <div class="col-lg-4 col-md-4 m-t-20">
                                 <h3 class="m-b-0 ">{{$user->followers()->count()}}</h3><small>Seguidores</small>
@@ -28,7 +28,7 @@
         <div>
         <ul class="nav nav-pills shadow-sm d-flex text-center" id="pills-tab" role="tablist">
             <li class="nav-item col-6">
-                <a class="nav-link tabs active" id="pills-home-tab" data-bs-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Publicacoes</a>
+                <a class="nav-link tabs active" id="pills-home-tab" data-bs-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Publicações</a>
             </li>
             <li class="nav-item col-6">
                 <a class="nav-link tabs" id="pills-liked-tab" data-bs-toggle="pill" href="#pills-liked" role="tab" aria-controls="pills-liked" aria-selected="true">Curtidas</a>
@@ -44,26 +44,26 @@
                     @endforeach
                         @if($user->id == Auth::user()->id)
                             <div class="d-flex justify-content-center align-items-center p-3 border-bottom border-info text-white-50">
-                                Voce chegou ao fim do seu perfil. <button type="button" class="btn btn-dark fw-bold text-white" data-bs-toggle="modal" data-bs-target="#postModal">
-                                    Faca novas publicacoes!
+                                Você chegou ao fim do seu perfil. <button type="button" class="btn btn-dark fw-bold text-white" data-bs-toggle="modal" data-bs-target="#postModal">
+                                    Faça novas publicações!
                                 </button>
                             </div>
                         @else
                             <div class="d-flex justify-content-center align-items-center p-3 border-bottom border-info text-white-50">
-                                Voce chegou ao fim do perfil de {{$user->name}}
+                                Você chegou ao fim do perfil de {{$user->name}}
                             </div>
                         @endif
                 @else
                     @if($user->id == Auth::user()->id)
                         <div class="d-flex flex-column text-center text-white-50 mt-3">
-                            <h3>Voce nao possui nenhuma publicacao.</h3>
+                            <h3>Você não possui nenhuma publicação.</h3>
                             <h5>Comece agora,<button type="button" class="btn btn-dark fw-bold" data-bs-toggle="modal" data-bs-target="#postModal">
                                     TATAKAE !
                                 </button></h5>
                         </div>
                     @else
                         <div class="d-flex flex-column text-center text-white-50 mt-3">
-                            <h3>{{$user->name}} nao possui nenhuma publicacao.</h3>
+                            <h3>{{$user->name}} não possui nenhuma publicação.</h3>
                         </div>
                     @endif
                 @endif

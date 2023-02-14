@@ -149,15 +149,15 @@
                         </div>
                     </div>
                 @endif
-                <div class="bg-anime mt-3 rounded-3" style="height: 200px">
+                <div class="bg-secondary mt-3 rounded-3" style="height: 200px">
                     <h5>Top Obras</h5>
                 </div>
-                <div class="bg-anime mt-3 rounded-3" style="height: 200px">
+                <div class="bg-secondary mt-3 rounded-3" style="height: 200px">
                     <h5>Top Personagens</h5>
                 </div>
                 @auth
                     @if(!Auth::user()->isAdmin())
-                        <div class="bg-anime mt-3 rounded-3" style="height: 200px">
+                        <div class="bg-secondary mt-3 rounded-3" style="height: 200px">
                             <h5>Sugestoes seguir</h5>
                         </div>
                     @endif

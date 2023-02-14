@@ -6,7 +6,7 @@
                 <a class="text-decoration-none text-light" href="{{route('profile.user', $user->name)}}"><span class="mr-2"><b>{{$user->name}}</b></span></a>
                 <small class="mx-2" >{{$post->created_at->diffForHumans()}}</small>
             </div>
-            @if($post->user_id == Auth::user()->id)
+            @if($post->user_id == Auth::user()->id or Auth::user()->isAdmin())
                 <div class="col-1 dropstart">
                     <a href="" class="text-decoration-none text-light" id="showMore" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-ellipsis"></i></a>
                     <ul class="dropdown-menu bg-secondary">
@@ -15,7 +15,7 @@
                 </div>
             @endif
         </div>
-        <p class="text-justify comment-text mb-0">{{$post->content}}</p>
+        <a href="{{route('posts.show', $post->id)}}" class="text-decoration-none text-light"><p class="text-justify comment-text mb-0">{{$post->content}}</p></a>
         <div class="d-flex flex-row user-feed">
             <button class="btn-comment border border-dark me-3" data-bs-toggle="modal" data-bs-target="#modalComment{{$post->id}}" style="padding: 0px"><i class="fa-regular fa-comment me-1"></i>{{$post->comments()->count()}}</button>
             <button type="button" class="btn-like border border-dark me-3" data-post-id="{{$post->id}}" style="padding: 0px"><span class="@if (Auth::user()->postLikes->where('post_id', $post->id)->count() > 0) fa-solid @else fa-regular @endif fa-heart me-1" id="like-heart{{$post->id}}"></span ><span id="like-count{{$post->id}}">{{$post->likes()->count()}}</span></button>
@@ -38,14 +38,14 @@
                         </div>
                     </div>
                     <div class="col-11">
-                        <span class="fw-bold"> {{$user->name}} </span>- {{$post->created_at}}
+                        <span class="fw-bold"> {{$user->name}} </span>- {{$post->created_at->diffForHumans()}}
                         <p>{{$post->content}}</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-1">
                         <div class="little-profile">
-                            <div class="pro-img-icon-no-line"><img src="{{'/img/profile-images/' . $user->profile_image}}" alt="user"></div>
+                            <div class="pro-img-icon-no-line"><img src="{{'/img/profile-images/' . Auth::user()->profile_image}}" alt="user"></div>
                         </div>
                     </div>
                     <div class="col-11">

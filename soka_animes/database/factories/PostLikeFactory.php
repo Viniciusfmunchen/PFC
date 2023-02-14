@@ -13,8 +13,8 @@ class PostLikeFactory extends Factory
     {
 
         return [
-            "user_id" => 2,
-            "post_id" => 1,
+            "user_id" => '',
+            "post_id" => '',
         ];
     }
 }

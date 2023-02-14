@@ -12,9 +12,10 @@ class CommentFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => 2,
-            'post_id' => 1,
-            'content' => fake()->text(1000),
+            'user_id' => '',
+            'post_id' => '',
+            'content' => fake()->text(rand(100, 500)),
         ];
     }
+
 }

@@ -35,7 +35,7 @@ class PostController extends Controller
 
     public function show(int $id){
         $post = Post::find($id);
-        $postComments = $post->comments()->with('user')->get();
+        $postComments = $post->comments()->with('user')->orderBy('created_at', 'desc')->get();
         return view('posts.show', compact('post', 'postComments'));
     }
 

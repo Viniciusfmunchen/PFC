@@ -100,8 +100,8 @@ class SearchController extends Controller
     }
 
     public function index(){
-        $works = Work::paginate(12);
-        $characters = Character::paginate(12);
+        $works = Work::all();
+        $characters = Character::all();
         $posts = [];
         $users = [];
 
@@ -116,13 +116,13 @@ class SearchController extends Controller
                         })
                         ->orWhereHas('characters', function($q) use ($search){
                             $q->where('name', 'LIKE', "%$search%");
-                        })->paginate(12);
+                        })->get();
                 $characters = Character::where('name', 'LIKE', "%$search%")
                             ->orWhere('description', 'LIKE', "%$search%")
                             ->orWhereHas('works', function($q) use ($search){
                                 $q->where('name', 'LIKE', "%$search%");
-                            })->paginate(12);
-                $users = User::where('name', 'LIKE', "%$search%")->withCount('followers')->orderBy('followers_count', 'desc')->paginate(12);
+                            })->get();
+                $users = User::where('name', 'LIKE', "%$search%")->withCount('followers')->orderBy('followers_count', 'desc')->get();
                 $posts = Post::with('user')->where('content', 'LIKE', "%$search%")
                         ->orWhereHas('user', function($q) use ($search){
                             $q->where('name', 'LIKE', "%$search%");
@@ -133,7 +133,7 @@ class SearchController extends Controller
                         ->orWhereHas('works', function($q) use ($search){
                             $q->where('name', 'LIKE', "%$search%");
                         })
-                        ->orderBy('created_at', 'desc')->paginate(12);
+                        ->orderBy('created_at', 'desc')->get();
 
                 return view('search', compact('works', 'characters', 'posts', 'users', 'search'));
         }else{

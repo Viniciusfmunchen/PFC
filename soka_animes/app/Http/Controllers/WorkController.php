@@ -14,6 +14,12 @@ class WorkController extends Controller
         return view('works.index', compact('works'));
     }
 
+    public function show(int $findWorks){
+        $work = Work::with('characters')->find($findWorks);
+
+        return view('works.show', compact('work'));
+    }
+
     public function create(){
         if(auth()->user()->isAdmin()){
             $genders = Gender::all();
@@ -59,9 +65,14 @@ class WorkController extends Controller
     }
 
     public function edit(Work $work){
-        $genders = Gender::all();
-        $characters = Character::all();
-        return view('works.edit', compact('work', 'genders'));
+        if(auth()->user()->isAdmin()){
+            $genders = Gender::all();
+            $characters = Character::all();
+            return view('works.edit', compact('genders', 'characters', 'work'));
+        }
+        else{
+            return redirect()->back();
+        }
     }
 
     public function update(Request $request, Work $work){
@@ -74,6 +85,7 @@ class WorkController extends Controller
             'status' => 'required',
             'author' => 'required | min:3 | max:50',
             'type' => 'required',
+            'gender' =>'required'
         ]);
 
         $work->fill($request->post())->save();
@@ -92,7 +104,7 @@ class WorkController extends Controller
                 $work->characters()->attach($character);
             }
         }
-        return redirect()->route('profile')->with('sucesso', 'Obra editado com sucesso');
+        return redirect()->route('works.show', $work->id)->with('success', 'Obra editada com sucesso');
     }
 
     public function destroy(Work $work){
@@ -100,6 +112,6 @@ class WorkController extends Controller
         $work->characters()->detach();
         $work->posts()->detach();
         $work->delete();
-        return redirect()->route('works.index')->with('sucesso', 'Obra excluido com sucesso');
+        return redirect()->route('search.index')->with('success', 'Obra excluída com sucesso');
     }
 }

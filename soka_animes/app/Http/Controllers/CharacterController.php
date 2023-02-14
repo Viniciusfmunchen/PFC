@@ -60,21 +60,21 @@ class CharacterController extends Controller
 
         $character->fill($request->post())->save();
 
-        if(!isset($works)){
+        if($request->work){
             $character->works()->detach();
             $works = $request->work;
             foreach ($works as $work) {
                 $character->works()->attach($work);
             }
         }
-        return redirect()->route('characters.index')->with('success', 'Personagem editado com sucesso');
+        return redirect()->route('characters.show', $character->id)->with('success', 'Personagem editado com sucesso');
     }
 
     public function destroy(Character $character){
         $character->works()->detach();
         $character->posts()->detach();
         $character->delete();
-        return redirect()->route('characters.index')->with('success', 'Personagem excluido com sucesso');
+        return redirect()->route('search.index')->with('success', 'Personagem excluido com sucesso');
     }
 
     public function createCharacterFromWork(Request $request){

@@ -256,6 +256,9 @@ label.following:hover{
     border-color: #302548 !important;
 }
 
+.cards-wrapper{
+    display: flex;
+}
 @media(max-width: 768px){
     .side{
         display: none;
