@@ -48,10 +48,12 @@
                 <div class="collapse navbar-collapse mt-3">
                     <ul class="navbar-nav text-light d-block">
                         @auth
-                            <li class="nav-item rounded-pill my-3">
-                                <a href="{{ route('home') }}" class="nav-link @if(Route::is('home')) text-white @endif"><span
-                                        class="fa-solid fa-home me-2 "></span> Pagina Inicial</a>
-                            </li>
+                            @if(!Auth::user()->isAdmin())
+                                <li class="nav-item rounded-pill my-3">
+                                    <a href="{{ route('home') }}" class="nav-link @if(Route::is('home')) text-white @endif"><span
+                                            class="fa-solid fa-home me-2 "></span> Pagina Inicial</a>
+                                </li>
+                            @endif
                             <li class="nav-item rounded-pill my-3">
                                 <a href="{{ route('profile') }}" class="nav-link @if(Route::is('profile')) text-white @endif">@if(Auth::user()->isAdmin())<span class="fa-solid fa-user-plus me-2">@else<span class="fa-solid fa-user me-2">@endif</span>
                                     Perfil</a>

@@ -15,9 +15,14 @@ class WorkController extends Controller
     }
 
     public function create(){
-        $genders = Gender::all();
-        $characters = Character::all();
-        return view('works.create', compact('genders', 'characters'));
+        if(auth()->user()->isAdmin()){
+            $genders = Gender::all();
+            $characters = Character::all();
+            return view('works.create', compact('genders', 'characters'));
+        }
+        else{
+            return redirect()->back();
+        }
     }
 
     public function store(Request $request){
