@@ -7,6 +7,7 @@ use App\Models\Post;
 use App\Models\User;
 use App\Models\Work;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
@@ -16,12 +17,16 @@ class ProfileController extends Controller
     }
 
     public function index(){
-        $user = auth()->user();
-        $works = Work::all();
-        $characters = Character::all();
-        $posts = Post::orderBy('created_at', 'DESC')->where('user_id', $user->id)->with('characters', 'works')->get();
+        if(!Auth::user()->isAdmin()){
+            $user = auth()->user();
+            $works = Work::all();
+            $characters = Character::all();
+            $posts = Post::orderBy('created_at', 'DESC')->where('user_id', $user->id)->with('characters', 'works')->get();
 
-        return view('profile.profile', compact('works', 'characters', 'posts', 'user'));
+            return view('profile.profile', compact('works', 'characters', 'posts', 'user'));
+        }else{
+            return redirect()->route('search.index');
+        }
     }
 
     public function show($username){

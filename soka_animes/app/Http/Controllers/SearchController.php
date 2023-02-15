@@ -36,17 +36,17 @@ class SearchController extends Controller
 
         if ($works->count() > 0) {
             foreach ($works as $work) {
-                $response .= '<a href="#" class="d-flex flex-row p-3 border-bottom border-secondary text-decoration-none text-light">
-                                        <img src="'.$work->image.'" alt="'.$work->name.'" width="60" height="80" class="rounded-3 mr-3">
-                                        <div class="w-100 ms-2">
-                                            <div class="d-flex justify-content-start align-items-center">
-                                                <div class="d-block">
-                                                    <span class="fs-5 mr-2"><b>'.$work->name.'</b></span>
-                                                    <small class="mx-2">'.($work->type === 0 ? "(anime)" : "(manga)").'</small>
-                                                </div>
+                $response .= '<a href="' . htmlspecialchars(route("works.show", $work->id)) . '" class="d-flex flex-row p-3 border-bottom border-secondary text-decoration-none text-light">
+                                    <img src="' . $work->image . '" alt="' . $work->name . '" width="60" height="80" class="rounded-3 mr-3">
+                                    <div class="w-100 ms-2">
+                                        <div class="d-flex justify-content-start align-items-center">
+                                            <div class="d-block">
+                                                <span class="fs-5 mr-2"><b>' . $work->name . '</b></span>
+                                                <small class="mx-2">' . ($work->type === 0 ? "(anime)" : "(manga)") . '</small>
                                             </div>
                                         </div>
-                                        </a>';
+                                    </div>
+                                </a>';
             }
         }
 
@@ -100,8 +100,12 @@ class SearchController extends Controller
     }
 
     public function index(){
-        $works = Work::all();
-        $characters = Character::all();
+        $works = Work::all()->sortByDesc(function($work) {
+            return $work->likes()->count();
+        });;
+        $characters = Character::all()->sortByDesc(function($character){
+            return $character->likes()->count();
+        });
         $posts = [];
         $users = [];
 

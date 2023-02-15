@@ -260,5 +260,6 @@ class WorkSeeder extends Seeder
                 'status' => $work['status'],
             ]);
         }
+
     }
 }

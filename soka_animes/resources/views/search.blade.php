@@ -1,4 +1,13 @@
 <x-app title="Pesquisar">
+    @auth
+        @if(Auth::user()->isAdmin())
+            <div class="bg-gender border border-gender rounded-5 rounded-top p-1 text-center">
+                <a href="{{ route('genders.index') }}" class="text-decoration-none text-light">
+                    <h3>Gerenciar gêneros</h3>
+                </a>
+            </div>
+        @endif
+    @endauth
     <div class="p-3">
         <div class="search-box input-group rounded-pill px-3 py-1 mt-2 w-100">
             <span class="input-group-append d-flex align-items-center">
@@ -55,7 +64,7 @@
                     <div class="row row-cols-1 row-cols-md-3 g-3 p-3">
                         @foreach ($works as $work)
                                 <div class="col card-group">
-                                    <div class="card bg-secondary position-static" data-work-type="{{$work->type}}">
+                                    <div class="card bg-secondary position-static border border-info" data-work-type="{{$work->type}}">
                                         <a href="{{route('works.show', $work->id)}}"><img src="{{$work->image}}" class="card-img-top" alt="..." style="max-height: 200px"></a>
                                         <div class="card-body d-flex justify-content-center align-items-center text-center">
                                             <h6 class="text-fluid fw-bold">{{$work->name}}</h6>
@@ -69,7 +78,10 @@
                         @endforeach
                     </div>
                 @else
-                    Nao encontramos nenhuma obra.
+                    <div class="d-flex flex-column justify-content-center align-items-center text-center text-white-50 mt-3">
+                        <img class="" style="max-height: 300px; max-width: 300px"src="{{'/img/site-images/not-found.png'}}">
+                        <h3>Não encontramos nenhuma obra em nossos registros.</h3>
+                    </div>
                 @endif
              </div>
             <!-- 2nd card -->
@@ -78,8 +90,8 @@
                     <div class="row row-cols-3 row-cols-md-3 g-4">
                         @foreach ($characters as $character)
                             <a href="{{route('characters.show', $character)}}" class="text-decoration-none text-light">
-                                <div class="col card-group ">
-                                    <div class="card bg-secondary position-static">
+                                <div class="col card-group">
+                                    <div class="card bg-secondary position-static border border-info">
                                         <img src="{{$character->image}}" class="card-img-top" alt="..." style="max-height: 200px">
                                         <div class="card-body d-flex justify-content-center align-items-center text-center">
                                             <h6 class="card-title fw-bold">{{$character->name}}</h6>
@@ -90,7 +102,10 @@
                         @endforeach
                     </div>
                 @else
-                    Nao encontramos nenhum personagem.
+                    <div class="d-flex flex-column text-center justify-content-center align-items-center text-white-50 mt-3">
+                        <img class="" style="max-height: 300px; max-width: 300px"src="{{'/img/site-images/not-found.png'}}">
+                        <h3>Não encontramos nenhum personagem em nossos registros.</h3>
+                    </div>
                 @endif
              </div>
             @if(Route::is('search.expand'))
@@ -107,12 +122,15 @@
                                                 <a class="text-decoration-none text-light" href="{{route('profile.user', $user->name)}}"><span class="mr-2"><b>{{$user->name}}</b></span></a>
                                             </div>
                                         </div>
-                                        <a href="{{route('profile.user', $user->id)}}" class="text-decoration-none text-light"><p class="text-justify comment-text mb-0"><span class="me-1">Seguidores : {{$user->followers()->count()}}</span> · <span class="ms-1">Publicações: {{$user->posts()->count()}}</span></p></a>
+                                        <a href="{{route('profile.user', $user->name)}}" class="text-decoration-none text-light"><p class="text-justify comment-text mb-0"><span class="me-1">Seguidores : {{$user->followers()->count()}}</span> · <span class="ms-1">Publicações: {{$user->posts()->count()}}</span></p></a>
                                     </div>
                                 </div>
                             @endforeach
                         @else
-                            Nao encontramos nenhum usuario
+                            <div class="d-flex flex-column text-center justify-content-center align-items-center  text-white-50 mt-3">
+                                <img class="" style="max-height: 300px; max-width: 300px"src="{{'/img/site-images/not-found.png'}}">
+                                <h3>Não encontramos nenhum usuário em nossos registros.</h3>
+                            </div>
                         @endif
 
                     </div>
@@ -123,7 +141,10 @@
                                 <x-post :user="$post->user" :post="$post" :works="$post->works" :characters="$post->characters" :comments="$post->comments"></x-post>
                             @endforeach
                         @else
-                            Nao encontramos nenhuma publicacao.
+                            <div class="d-flex flex-column justify-content-center align-items-center  text-center text-white-50 mt-3">
+                                <img class="" style="max-height: 300px; max-width: 300px"src="{{'/img/site-images/not-found.png'}}">
+                                <h3>Não encontramos nenhuma publicação em nossos registros.</h3>
+                            </div>
                         @endif
 
                      </div>

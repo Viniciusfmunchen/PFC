@@ -18,7 +18,7 @@
         <a href="{{route('posts.show', $post->id)}}" class="text-decoration-none text-light"><p class="text-justify comment-text mb-0">{{$post->content}}</p></a>
         <div class="d-flex flex-row user-feed">
             <button class="btn-comment border border-dark me-3" data-bs-toggle="modal" data-bs-target="#modalComment{{$post->id}}" style="padding: 0px"><i class="fa-regular fa-comment me-1"></i>{{$post->comments()->count()}}</button>
-            <button type="button" class="btn-like border border-dark me-3" data-post-id="{{$post->id}}" style="padding: 0px"><span class="@if (Auth::user()->postLikes->where('post_id', $post->id)->count() > 0) fa-solid @else fa-regular @endif fa-heart me-1" id="like-heart{{$post->id}}"></span ><span id="like-count{{$post->id}}">{{$post->likes()->count()}}</span></button>
+            <button type="button" class="btn-like btn-like-post border border-dark me-3" data-post-id="{{$post->id}}" style="padding: 0px"><span class="@if (Auth::user()->postLikes->where('post_id', $post->id)->count() > 0) fa-solid @else fa-regular @endif fa-heart me-1" id="like-heart{{$post->id}}"></span ><span id="like-count{{$post->id}}">{{$post->likes()->count()}}</span></button>
             @if($post->works()->count() > 0 || $post->characters()->count() > 0)
                 <button class="btn-comment border border-dark me-3" data-bs-toggle="modal" data-bs-target="#modalTags{{$post->id}}"><i class="fa-solid fa-tags me-2"></i>Tags</button>
             @endif

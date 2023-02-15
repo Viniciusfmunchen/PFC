@@ -33,4 +33,13 @@ class Work extends Model
     public function posts(){
            return $this->belongsToMany(Post::class);
     }
+
+    public function likes(){
+        return $this->hasMany(WorkLike::class);
+    }
+
+    public function isLikedBy(User $user)
+    {
+        return $this->likes()->where('user_id', $user->id)->exists();
+    }
 }

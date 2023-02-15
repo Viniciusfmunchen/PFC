@@ -36,7 +36,7 @@
     @endif
     <div class="container">
         <div class="row">
-            <nav class="col-3 side navbar-expand-lg navbar-dark p-4 bg-dark sticky-top border-end border-secondary">
+            <nav class="col-3 side navbar-expand-lg navbar-dark p-4 bg-dark sticky-top border-end border-info">
                 <a href="{{route('home')}}" class="navbar-brand">
                     <img class="img-fluid" src="{{'/img/site-images/logo-soka.png'}}">
                 </a>
@@ -53,11 +53,12 @@
                                     <a href="{{ route('home') }}" class="nav-link @if(Route::is('home')) text-white @endif"><span
                                             class="fa-solid fa-home me-2 "></span> Pagina Inicial</a>
                                 </li>
+                                <li class="nav-item rounded-pill my-3">
+                                    <a href="{{ route('profile') }}" class="nav-link @if(Route::is('profile')) text-white @endif">@if(Auth::user()->isAdmin())<span class="fa-solid fa-user-plus me-2">@else<span class="fa-solid fa-user me-2">@endif</span>
+                                            Perfil</a>
+                                </li>
                             @endif
-                            <li class="nav-item rounded-pill my-3">
-                                <a href="{{ route('profile') }}" class="nav-link @if(Route::is('profile')) text-white @endif">@if(Auth::user()->isAdmin())<span class="fa-solid fa-user-plus me-2">@else<span class="fa-solid fa-user me-2">@endif</span>
-                                    Perfil</a>
-                            </li>
+
                         @endauth
                         <li class="nav-item rounded-pill my-3">
                             <a href="{{ route('search.index') }}" class="nav-link"><span class="fa-solid fa-search me-2"></span> Pesquisar</a>
@@ -123,7 +124,7 @@
             <div class="col-lg-6 col-sm-12 bg-dark" style="padding: 0">
                 {{ $slot }}
             </div>
-            <div class="col-3 bg-dark side border-start border-secondary position-sticky sticky-top">
+            <div class="col-3 bg-dark side border-start border-info position-sticky sticky-top">
                 @if(!Route::is('search.index', 'search.expand'))
                     <div class="search-box input-group rounded-pill px-3 py-1 mt-2 w-100">
                         <span class="input-group-append d-flex align-items-center">
@@ -149,19 +150,48 @@
                         </div>
                     </div>
                 @endif
-                <div class="bg-secondary mt-3 rounded-3" style="height: 200px">
-                    <h5>Top Obras</h5>
-                </div>
-                <div class="bg-secondary mt-3 rounded-3" style="height: 200px">
-                    <h5>Top Personagens</h5>
-                </div>
-                @auth
-                    @if(!Auth::user()->isAdmin())
-                        <div class="bg-secondary mt-3 rounded-3" style="height: 200px">
-                            <h5>Sugestoes seguir</h5>
+                <div class="bg-secondary mt-3 rounded-3 border border-info" >
+                    <div class="rounded-top d-flex bg-info p-1 d-flex justify-content-center align-items-center border-bottom border-primary">
+                        <h5>Top Obras</h5>
+                    </div>
+                    <div class="p-3" style="height: 200px; overflow: auto">
+                            @php $i = 1 @endphp
+                        <div class="row">
+                            @foreach($topWorks as $work)
+                                    <div class="col-6 p-3 border-bottom border-dark @if($i%2 == 0) border-start @endif">
+                                        <div class="d-flex justify-content-center">
+                                            <img class="rounded-3 border border-primary img-fluid" src="{{$work->image}}" alt="" style="max-width: 75%; max-height: 75%"><br>
+                                        </div>
+                                        <div class="d-flex justify-content-center text-center">
+                                            <p><b>#{{$i}}: </b>{{$work->name}}</p>
+                                        </div>
+                                    </div>
+                                @php $i++ @endphp
+                            @endforeach
                         </div>
-                    @endif
-                @endauth
+                    </div>
+                </div>
+                <div class="bg-secondary mt-3 rounded-3 border border-info" >
+                    <div class="rounded-top d-flex bg-info p-1 d-flex justify-content-center align-items-center border-bottom border-primary">
+                        <h5>Top Personagens</h5>
+                    </div>
+                    <div class="p-3" style="height: 200px; overflow: auto">
+                        @php $i = 1 @endphp
+                        <div class="row">
+                            @foreach($topCharacters as $character)
+                                <div class="col-6 p-2 border-bottom border-dark @if($i%2 == 0) border-start @endif">
+                                        <div class="d-flex justify-content-center">
+                                            <img class="rounded-3 border border-primary img-fluid" src="{{$character->image}}" alt="" style="max-width: 75%; max-height: 75%"><br>
+                                        </div>
+                                        <div class="d-flex justify-content-center text-center">
+                                            <p style="padding: 0; margin: 0"><b>#{{$i}}: </b>{{$character->name}}</p>
+                                        </div>
+                                </div>
+                                @php $i++ @endphp
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -318,7 +348,7 @@
 
         });
 
-        $('.btn-like').on('click', function(){
+        $('.btn-like-post').on('click', function(){
             var postId = $(this).data('post-id');
             console.log(postId);
             var url = "{{ route('post.like', '')}}/" + postId;
@@ -340,6 +370,100 @@
                     }else{
                         $('#like-heart' + postId).removeClass('fa-solid', 'text-danger');
                         $('#like-heart' + postId).addClass('fa-regular', 'text-danger');
+                    }
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    console.log("Error: " + errorThrown);
+                    console.log("Status: " + textStatus);
+                    console.dir(xhr);
+                }
+            });
+        });
+        $('.btn-like-comment').on('click', function(){
+            var commentId = $(this).data('comment-id');
+            console.log(commentId);
+            var url = "{{ route('comment.like', '')}}/" + commentId;
+            $.ajax({
+                type: 'POST',
+                url: url,
+                datatype: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    console.log(response.liked, response.likeCount)
+                    $('#like-count' + commentId).html(response.likeCount);
+
+                    if(response.liked){
+                        $('#like-heart' + commentId).removeClass('fa-regular', 'text-danger');
+                        $('#like-heart' + commentId).addClass('fa-solid', 'text-danger');
+                    }else{
+                        $('#like-heart' + commentId).removeClass('fa-solid', 'text-danger');
+                        $('#like-heart' + commentId).addClass('fa-regular', 'text-danger');
+                    }
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    console.log("Error: " + errorThrown);
+                    console.log("Status: " + textStatus);
+                    console.dir(xhr);
+                }
+            });
+        });
+        $('.btn-like-work').on('click', function(){
+            var workId = $(this).data('work-id');
+            console.log(workId);
+            var url = "{{ route('work.like', '')}}/" + workId;
+            console.log(workId);
+            $.ajax({
+                type: 'POST',
+                url: url,
+                datatype: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    console.log(response.liked, response.likeCount)
+                    $('#like-count' + workId).html(response.likeCount);
+
+                    if(response.liked){
+                        $('#like-heart' + workId).removeClass('fa-regular');
+                        $('#like-heart' + workId).addClass('fa-solid');
+                    }else{
+                        $('#like-heart' + workId).removeClass('fa-solid');
+                        $('#like-heart' + workId).addClass('fa-regular');
+                    }
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    console.log("Error: " + errorThrown);
+                    console.log("Status: " + textStatus);
+                    console.dir(xhr);
+                }
+            });
+        });
+        $('.btn-like-character').on('click', function(){
+            var characterId = $(this).data('character-id');
+            console.log(characterId);
+            var url = "{{ route('character.like', '')}}/" + characterId;
+            console.log(characterId);
+            $.ajax({
+                type: 'POST',
+                url: url,
+                datatype: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    console.log(response.liked, response.likeCount)
+                    $('#like-count' + characterId).html(response.likeCount);
+
+                    if(response.liked){
+                        $('#like-heart' + characterId).removeClass('fa-regular');
+                        $('#like-heart' + characterId).addClass('fa-solid');
+                        console.log(`like`)
+                    }else{
+                        $('#like-heart' + characterId).removeClass('fa-solid');
+                        $('#like-heart' + characterId).addClass('fa-regular');
+                        console.log('oi')
                     }
                 },
                 error: function(xhr, textStatus, errorThrown) {

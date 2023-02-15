@@ -2,10 +2,14 @@
     <div class="bg-dark border-bottom border-info position-sticky sticky-top p-3 mx-3">
         <div class="d-flex justify-content-between align-items-center">
             <h2 class="fw-bold">{{$work->name}} @if($work->type == 0)<span class="badge bg-white-50 border border-anime text-light fs-5">Animê</span>@else <span class="badge bg-white-50 border border-manga text-light fs-5">Mangá</span> @endif</h2>
-            <div class="d-block fs-5">
-                <i class="fa-regular fa-heart"></i>
-                <span>12.000</span>
-            </div>
+            @auth
+                @if(!Auth::user()->isAdmin())
+                    <div class="fs-5">
+                        <button type="button" class="btn-like btn-like-work border-none me-1" data-work-id="{{$work->id}}" style="padding: 0px"><span class="@if (Auth::user()->workLikes->where('work_id', $work->id)->count() > 0) fa-solid @else fa-regular @endif fa-heart me-1" id="like-heart{{$work->id}}"></span ></button>
+                        <span id="like-count{{$work->id}}" class="text-white-50">{{$work->likes()->count()}}</span>
+                    </div>
+                @endif
+            @endauth
         </div>
     </div>
     <div class="d-flex flex-row  m-4 gap-3" style="max-height: 250px">
@@ -90,12 +94,14 @@
             @endforeach
         </div>
     </div>
-    @if(Auth::user()->isAdmin())
-        <div class="bg-secondary p-3 rounded-bottom">
-            <a href="{{route('works.edit', $work->id)}}" class="btn btn-primary">Editar Informações</a>
-            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalDelete{{$work->id}}"></i>Excluir Obra<i class="fa-solid fa-trash"></i></button>
-        </div>
-    @endif
+    @auth
+        @if(Auth::user()->isAdmin())
+            <div class="bg-secondary p-3 rounded-bottom">
+                <a href="{{route('works.edit', $work->id)}}" class="btn btn-primary">Editar Informações</a>
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalDelete{{$work->id}}"></i>Excluir Obra<i class="fa-solid fa-trash"></i></button>
+            </div>
+        @endif
+    @endauth
     <div class="modal fade" id="modalDelete{{$work->id}}" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-sm">
             <div class="modal-content bg-dark text-light d-block rounded-3">

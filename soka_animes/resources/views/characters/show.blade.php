@@ -2,10 +2,14 @@
     <div class="border-bottom border-info position-sticky sticky-top p-3 mx-3">
         <div class="d-flex justify-content-between align-items-center">
             <h2 class="fw-bold">{{$character->name}}</h2>
-            <div class="d-block fs-5">
-                <i class="fa-regular fa-heart"></i>
-                <span>12.000</span>
-            </div>
+            @auth
+                @if(!Auth::user()->isAdmin())
+                    <div class="fs-5">
+                        <button type="button" class="btn-like btn-like-character border-none me-1" data-character-id="{{$character->id}}" style="padding: 0px"><span class="@if (Auth::user()->characterLikes->where('work_id', $character->id)->count() > 0) fa-solid @else fa-regular @endif fa-heart me-1" id="like-heart{{$character->id}}"></span ></button>
+                        <span id="like-count{{$character->id}}" class="text-white-50">{{$character->likes()->count()}}</span>
+                    </div>
+                @endif
+            @endauth
         </div>
     </div>
     <div class="d-flex flex-row  m-4 gap-3" style="max-height: 250px">
@@ -37,12 +41,14 @@
                 @endforeach
             </div>
     </div>
-    @if(Auth::user()->isAdmin())
-        <div class="bg-secondary p-3 rounded-bottom">
-            <a href="{{route('characters.edit', $character->id)}}" class="btn btn-primary">Editar Informações</a>
-            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalDelete{{$character->id}}"></i>Excluir Personagem<i class="fa-solid fa-trash"></i></button>
-        </div>
-    @endif
+    @auth
+        @if(Auth::user()->isAdmin())
+            <div class="bg-secondary p-3 rounded-bottom">
+                <a href="{{route('characters.edit', $character->id)}}" class="btn btn-primary">Editar Informações</a>
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalDelete{{$character->id}}"></i>Excluir Personagem<i class="fa-solid fa-trash"></i></button>
+            </div>
+        @endif
+    @endauth
     <div class="modal fade" id="modalDelete{{$character->id}}" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-sm">
             <div class="modal-content bg-dark text-light d-block rounded-3">

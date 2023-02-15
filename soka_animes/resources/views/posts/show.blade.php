@@ -1,4 +1,4 @@
-<x-app title="">
+<x-app title="Publicação de {{$post->user->name}}" >
     <x-post :user="$post->user" :post="$post" :works="$post->works" :characters="$post->characters" :comments="$post->comments"></x-post>
     @foreach($postComments as $comment)
         <div class="d-flex flex-row p-3 border-bottom border-dark bg-secondary">
@@ -19,6 +19,13 @@
                     @endif
                 </div>
                 <p class="text-justify comment-text mb-0">{{$comment->content}}</p>
+                <div class="d-flex flex-row user-feed">
+                    <button type="button" class="btn-like btn-like-comment border-none me-3" data-comment-id="{{$comment->id}}" style="padding: 0px"><span class="@if (Auth::user()->commentLikes->where('comment_id', $comment->id)->count() > 0) fa-solid @else fa-regular @endif fa-heart me-1" id="like-heart{{$comment->id}}"></span ><span id="like-count{{$comment->id}}">{{$comment->likes()->count()}}</span></button>
+                    @if($post->works()->count() > 0 || $post->characters()->count() > 0)
+                        <button class="btn-comment border border-dark me-3" data-bs-toggle="modal" data-bs-target="#modalTags{{$post->id}}"><i class="fa-solid fa-tags me-2"></i>Tags</button>
+                    @endif
+                </div>
+
             </div>
         </div>
     @endforeach

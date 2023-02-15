@@ -19,4 +19,5 @@ class CommentController extends Controller
 
         return redirect()->back()->with('success', 'Sua resposta foi enviada.');
     }
+
 }

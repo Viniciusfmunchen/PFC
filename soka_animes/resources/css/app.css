@@ -125,7 +125,7 @@ button.btn-like:focus{
 }
 
 *::-webkit-scrollbar-thumb {
-    background-color: #302548FF;
+    background-color: rgba(102, 51, 153, 0.2);
     border-radius: 6px;
     border: 13px none #ffffff;
 }
@@ -230,6 +230,13 @@ a.active {
     color: white;
     background-color: transparent;
     border-bottom: 3px solid rebeccapurple;
+    font-weight: 600;
+}
+
+.nav-pills .profile .nav-link.active {
+    color: white;
+    background-color: transparent;
+    border-bottom: 3px solid #443465FF;
     font-weight: 600;
 }
 

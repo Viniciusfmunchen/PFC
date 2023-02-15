@@ -20,20 +20,22 @@ use Illuminate\Support\Facades\Route;
     Route::get('api/search', [\App\Http\Controllers\SearchController::class, 'search'])->name('api.search');
     Route::get('/search', [\App\Http\Controllers\SearchController::class, 'index'])->name('search.index');
     Route::get('/search/{search}', [\App\Http\Controllers\SearchController::class, 'expand'])->name('search.expand');
+    Route::resource('characters', \App\Http\Controllers\CharacterController::class);
+    Route::resource('works', \App\Http\Controllers\WorkController::class);
 
     Route::middleware('auth')->group(function(){
         Route::resource('genders', \App\Http\Controllers\GenderController::class);
         Route::post('work/gender/create', [\App\Http\Controllers\GenderController::class, 'createGenderFromWork'])->name('work.gender');
+        Route::post('/work/like/{work}', [App\Http\Controllers\LikeController::class, 'likeWork'])->name('work.like');
 
-        Route::resource('works', \App\Http\Controllers\WorkController::class);
-
-        Route::resource('characters', \App\Http\Controllers\CharacterController::class);
-        Route::post('work/character/create', [\App\Http\Controllers\CharacterController::class, 'createCharacterFromWork'])->name('work.character');
+        Route::post('/work/character/create', [\App\Http\Controllers\CharacterController::class, 'createCharacterFromWork'])->name('work.character');
+        Route::post('/character/like/{character}', [App\Http\Controllers\LikeController::class, 'likeCharacter'])->name('character.like');
 
         Route::resource('posts', App\Http\Controllers\PostController::class);
         route::post('/post/like/{post}', [\App\Http\Controllers\LikeController::class, 'likePost'])->name('post.like');
 
         Route::post('/comments/store', [\App\Http\Controllers\CommentController::class, 'store'])->name('comment.store');
+        Route::post('/comment/like/{comment}', [\App\Http\Controllers\LikeController::class, 'likeComment'])->name('comment.like');
 
         Route::get('/profile/{username}', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.user');
         Route::get('/profile', [\App\Http\Controllers\ProfileController::class, 'index'])->name('profile');
@@ -46,7 +48,7 @@ use Illuminate\Support\Facades\Route;
         Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
     });
 
-    Auth::routes(['api.search' => false, 'search.index' => false, 'search.expand' => false, 'characters' => false]);
+    Auth::routes(['api.search' => false, 'search.index' => false, 'search.expand' => false, 'characters.show' => false, 'works.show' => false]);
 
 
 

@@ -27,11 +27,8 @@
             </div>
         <div>
         <ul class="nav nav-pills shadow-sm d-flex text-center" id="pills-tab" role="tablist">
-            <li class="nav-item col-6">
+            <li class="nav-item col-12">
                 <a class="nav-link tabs active" id="pills-home-tab" data-bs-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Publicações</a>
-            </li>
-            <li class="nav-item col-6">
-                <a class="nav-link tabs" id="pills-liked-tab" data-bs-toggle="pill" href="#pills-liked" role="tab" aria-controls="pills-liked" aria-selected="true">Curtidas</a>
             </li>
         </ul>
 
@@ -68,11 +65,6 @@
                     @endif
                 @endif
             </div>
-
-            <!-- 2nd card -->
-            <div class="tab-pane fade text-white" id="pills-liked" role="tabpanel" aria-labelledby="pills-profile-tab">
-                Futuro
-            </div>
         </div>
     </div>
     <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
@@ -100,7 +92,7 @@
                             <input id="profile_image" name="profile_image" type="file" class="d-none">
                         </div>
                         <div class="form-group mb-3">
-                            <label for="name">Nome de usuario:</label>
+                            <label for="name">Nome de usuário:</label>
                             <input type="text" name="name" id="name" class="form-control input-dark" value="{{Auth::user()->name}}">
                         </div>
                         <div class="modal-footer border-info pb-1">
